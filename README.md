@@ -13,8 +13,9 @@
 #### Linux
 1. Установить python: `sudo apt install python3`
 2. Установить git: `sudo apt install git`
-3. Клонировать репозиторий: `git clone https://github.com/Justuser3310/jetwork.git`
-4. Запустить setup.py: `cd jetwork && python3 setup.py`
+3. Установить tar: `sudo apt install tar`
+4. Клонировать репозиторий: `git clone https://github.com/Justuser3310/jetwork.git`
+5. Запустить setup.py: `cd jetwork && python3 setup.py`
 
 #### Windows
 1. Установить python: https://www.python.org/downloads/release/python-3122/ (Windows installer)
