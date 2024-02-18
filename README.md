@@ -12,17 +12,15 @@
 
 #### Linux
 1. Установить python: `sudo apt install python3`
-2. Библиотеки...
-3. Установить git: `sudo apt install git`
-4. Клонировать репозиторий: `git clone https://github.com/Justuser3310/jetwork.git`
-5. Запустить setup.py: `cd jetwork && python3 setup.py`
+2. Установить git: `sudo apt install git`
+3. Клонировать репозиторий: `git clone https://github.com/Justuser3310/jetwork.git`
+4. Запустить setup.py: `cd jetwork && python3 setup.py`
 
 #### Windows
 1. Установить python: https://www.python.org/downloads/release/python-3122/ (Windows installer)
-2. Библиотеки...
-3. Установить git: https://www.python.org/downloads/release/python-3122/ (Windows setup)
-4. Клонировать репозиторий: `git clone https://github.com/Justuser3310/jetwork.git`
-5. Запустить setup.py: `cd jetwork && python3 setup.py`
+2. Установить git: https://www.python.org/downloads/release/python-3122/ (Windows setup)
+3. Клонировать репозиторий: `git clone https://github.com/Justuser3310/jetwork.git`
+4. Запустить setup.py: `cd jetwork && python3 setup.py`
 
 ### Открытие любых портов
 Открыть порт 25565:
