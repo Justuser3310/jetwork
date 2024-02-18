@@ -19,7 +19,7 @@
 
 #### Windows
 1. Установить python: https://www.python.org/downloads/release/python-3122/ (Windows installer)
-2. Установить git: https://www.python.org/downloads/release/python-3122/ (Windows setup)
+2. Установить git: https://git-scm.com/download/win (Windows setup)
 3. Клонировать репозиторий: `git clone https://github.com/Justuser3310/jetwork.git`
 4. Запустить setup.py: `cd jetwork && python3 setup.py`
 
