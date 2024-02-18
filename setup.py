@@ -33,4 +33,4 @@ max = input(">> ")
 config["max"] = max
 write(config)
 
-print("Чтобы подключится к jetwork выполните: python main.py")
+print("\nЧтобы подключится к jetwork выполните: python main.py")
