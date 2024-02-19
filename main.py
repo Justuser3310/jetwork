@@ -3,6 +3,16 @@ from threading import Thread
 
 # Здесь общий запуск всех файлов и команд
 
+# Проверка обновлений
+from sys import argv
+if len(argv) == 1:
+	print("Проверка обновлений...")
+	system("git pull")
+	print("Перезагрузка скрипта...")
+	system("python main.py updated")
+	exit()
+print("\nУспешно перезагружено!")
+
 '''
 # Порт для приёма всяких запросов
 def reverse_proxy():
