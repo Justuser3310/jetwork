@@ -26,16 +26,14 @@ def reverse_proxy():
 	elif name == "nt":
 		system(f"bore.exe local {port} --to jetwork.404.mn --port {dest}")
 
-'''
 # Стартуем проброс порта
 rp = Thread(target = reverse_proxy)
 rp.start()
-sleep(0.5)
-'''
 print(f"\nВаш порт: {dest}")
 
 from network import *
 
-#server(8001)
-client(8001)
+#server(8000)
+pport = int(input())
+client(pport, "is_t")
 
