@@ -2,6 +2,8 @@ from os import system, name
 from threading import Thread
 from time import sleep
 
+from network import *
+
 # Здесь общий запуск всех файлов и команд
 '''
 # Проверка обновлений
@@ -16,24 +18,34 @@ print("\nУспешно перезагружено!")
 '''
 
 # Порт для приёма всяких запросов
-from random import randint
-dest = randint(4000, 4200)
-def reverse_proxy():
-	global dest
-	port = 8000
+def reverse_proxy(dest, port = 8000):
 	if name == "posix":
 		system(f"./bore local {port} --to jetwork.404.mn --port {dest}")
 	elif name == "nt":
 		system(f"bore.exe local {port} --to jetwork.404.mn --port {dest}")
 
 # Стартуем проброс порта
-rp = Thread(target = reverse_proxy)
+# http сервер
+global http_port
+http_port = port_gen()
+rp_http = Thread(target = reverse_proxy, args=(http_port,))
+rp_http.start()
+print(f"Порт http сервера: {http_port}")
+# сервер для пинга
+serv_port = port_gen()
+rp = Thread(target = reverse_proxy, args=(serv_port, 8001))
 rp.start()
-print(f"\nВаш порт: {dest}")
+print(f"Порт сервера: {serv_port}")
 
-from network import *
+mode = 1
 
-#server(8000)
-pport = int(input())
-client(pport, "is_t")
+if mode == 0:
+	serv_http = Thread(target = server_http)
+	serv_http.start()
+	os.chdir("../") # возвращаемся в корень
+	serv = Thread(target = server, args=(http_port,))
+	serv.start()
+elif mode == 1:
+	pport = int(input())
+	client(pport)
 

@@ -26,6 +26,11 @@ else:
 system("mkdir cached")
 system("mkdir verify")
 system("mkdir mysites")
+# Создаём файл для проверки что это клиент
+# (файл существует -> это клиент jetwork)
+with open("cached/jetwork"):
+	f.write("")
+f.close()
 
 print("Максимальный размер для кэшированных файлов. (в гигабайтах)")
 print("Укажите 0 для отключения ограничения.")
