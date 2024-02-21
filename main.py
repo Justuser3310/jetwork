@@ -42,10 +42,15 @@ mode = 1
 if mode == 0:
 	serv_http = Thread(target = server_http)
 	serv_http.start()
+
+	sleep(1)
 	os.chdir("../") # возвращаемся в корень
+
 	serv = Thread(target = server, args=(http_port,))
 	serv.start()
 elif mode == 1:
 	pport = int(input())
-	client(pport)
+	port_dest = client(pport, "is_just.jet")
+	if port_dest != "not exist":
+		client(port_dest, "get_just.jet")
 

@@ -23,7 +23,6 @@ if op == "1":
 	# Создаём папку и ключи для подписи
 	system(f"mkdir mysites/{domain}")
 	key_gen(f"mysites/{domain}")
-	copyfile(f"mysites/{domain}.pem", f"mysites/{domain}/{domain}.pem")
 
 	if type == "1":
 		conf = {"type": "static", "ver": 1}

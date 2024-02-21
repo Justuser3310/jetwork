@@ -2,13 +2,16 @@ import socket
 from requests import get
 import os
 from random import randint
+from shutil import unpack_archive
+
+from verify import *
 
 # Здесь идёт обработка всех запросов через сеть
 
 # TODO:
 # 1. [+] Пинг
 # 2. [+] Проверка существования сайта
-# 3. Передача сайта
+# 3. [+] Передача сайта
 # 4. Приём рассылки сайтов
 
 def port_gen():
@@ -52,16 +55,12 @@ def server(http_port):
 				if os.path.exists(f'cached/{check}'):
 					conn.send(str(http_port).encode())
 				else:
-					conn.send("not exist".encode())
+					conn.send("not_exist".encode())
 		conn.close()
 
 # op = operation
 def client(port, op = "ping"):
 	host = 'jetwork.404.mn'
-
-	#if op == "ping":
-	#	r = get(f"http://{host}:{str(port)}/jetwork")
-	#	print(r.headers['Content-Length'])
 
 	if op == "ping" or op[:3] == "is_":
 		s = socket.socket()
@@ -82,3 +81,46 @@ def client(port, op = "ping"):
 
 		s.close()
 		return data
+	elif op[:4] == "get_":
+		site = op[4:]
+		# Скачиваем файлы
+		g_site = get(f"http://{host}:{str(port)}/{site}.zip")
+		print('SIZE: ', g_site.headers['Content-Length']) # Размер
+
+		with open(f"verify/{site}.zip", "wb") as f:
+			f.write(g_site.content)
+			f.close()
+
+		g_sig = get(f"http://{host}:{str(port)}/{site}.sig")
+		with open(f"verify/{site}.sig", "wb") as f:
+			f.write(g_sig.content)
+			f.close()
+
+		g_key = get(f"http://{host}:{str(port)}/{site}.pem")
+		with open(f"verify/{site}.pem", "wb") as f:
+			f.write(g_key.content)
+			f.close()
+
+		# Проверяем подпись
+		# Если сайт уже есть в кэше:
+		if os.path.exists(f'cached/{site}'):
+			okay = verify(f"verify/{site}.zip", f"cached/{site}.pem", f"verify/{site}.sig")
+		else:
+			okay = verify(f"verify/{site}.zip", f"verify/{site}.pem", f"verify/{site}.sig")
+
+		if okay:
+			# Перемещаем файлы, т.к. всё хорошо
+			os.replace(f"verify/{site}.zip", f"cached/{site}.zip")
+			os.replace(f"verify/{site}.sig", f"cached/{site}.sig")
+			os.replace(f"verify/{site}.pem", f"cached/{site}.pem")
+			# Распаковываем архив с сайтом
+			unpack_archive(f"cached/{site}.zip", f"cached/{site}")
+		else:
+			print("[!] Обнаружена подмена сайта.")
+			# Сохраняем ключ злоумышленника
+			os.replace(f"verify/{site}.pem", f"verify/{site}.pem.FAKE")
+			print(f"[!] Порт злоумышленника: {port}")
+			print(f"[!] Ключ злоумышленника сохранён в verify/{site}.pem.FAKE\n")
+			# Удаляем фальшивые файлы
+			os.remove(f"verify/{site}.zip")
+			os.remove(f"verify/{site}.sig")
