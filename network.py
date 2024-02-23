@@ -10,6 +10,7 @@ from shutil import unpack_archive
 from re import compile, sub
 
 from verify import *
+from domain_check import *
 
 # Здесь идёт обработка всех запросов через сеть
 
@@ -28,18 +29,6 @@ def port_gen():
 	while client(port) != None:
 		port = randint(4000, 4200)
 	return port
-
-# ../some => some
-# Защита от проверки папок выше, чем нужно и др.
-def v_check(check):
-	regex = compile('[^a-zA-Zа-яА-ЯЁё.]')
-	check = regex.sub('', check)
-
-	if check.count('.') > 1:
-		return 'BAD'
-
-	return check
-
 
 
 def server_http():
@@ -73,7 +62,7 @@ def server(http_port):
 				check = op[3:]
 				print(check)
 				# Защита от доступа выше
-				check = v_check(check)
+				check = domain_ok(check)
 				print(check)
 
 				if os.path.exists(f'cached/{check}'):
