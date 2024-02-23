@@ -1,4 +1,4 @@
-from os import system
+from os import system, mkdir
 from db import *
 
 from verify import *
@@ -21,7 +21,7 @@ if op == "1":
 	type = input("Тип: ")
 
 	# Создаём папку и ключи для подписи
-	system(f"mkdir mysites/{domain}")
+	mkdir(f"mysites/{domain}")
 	key_gen(f"mysites/{domain}")
 
 	if type == "1":
