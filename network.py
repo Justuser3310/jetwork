@@ -1,8 +1,13 @@
+# Работа с сетью
 import socket
 from requests import get
+# Очевидно
 import os
 from random import randint
+# Работа с архивами
 from shutil import unpack_archive
+# Убираем ненужное (../some => some)
+from re import compile, sub
 
 from verify import *
 
@@ -13,6 +18,7 @@ from verify import *
 # 2. [+] Проверка существования сайта
 # 3. [+] Передача сайта
 # 4. Приём рассылки сайтов
+# 5. Проверка всех сайтов
 
 def port_gen():
 	port = randint(4000, 4200)
@@ -22,6 +28,19 @@ def port_gen():
 	while client(port) != None:
 		port = randint(4000, 4200)
 	return port
+
+# ../some => some
+# Защита от проверки папок выше, чем нужно и др.
+def v_check(check):
+	regex = compile('[^a-zA-Zа-яА-ЯЁё.]')
+	check = regex.sub('', check)
+
+	if check.count('.') > 1:
+		return 'BAD'
+
+	return check
+
+
 
 def server_http():
 	os.chdir("cached")
@@ -52,6 +71,11 @@ def server(http_port):
 				conn.send("pong".encode())
 			elif op[:3] == "is_":
 				check = op[3:]
+				print(check)
+				# Защита от доступа выше
+				check = v_check(check)
+				print(check)
+
 				if os.path.exists(f'cached/{check}'):
 					conn.send(str(http_port).encode())
 				else:
