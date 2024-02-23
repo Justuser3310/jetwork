@@ -1,6 +1,6 @@
 from os import system, mkdir
 from db import *
-from shutil import copyfile, make_archive, rmtree
+from shutil import copyfile, make_archive, rmtree, copytree
 from tqdm import tqdm
 
 from verify import *
@@ -95,10 +95,11 @@ elif op == "3":
 
 
 # Копируем файлы из mysites в cached
-copyfile(f"mysites/{domain}", "cached/{domain}")
-copyfile(f"mysites/{domain}.pem", "cached/{domain}.pem")
-copyfile(f"mysites/{domain}.sig", "cached/{domain}.sig")
-copyfile(f"mysites/{domain}.zip", "cached/{domain}.zip")
+rmtree(f"cached/{domain}")
+copytree(f"mysites/{domain}", f"cached/{domain}")
+copyfile(f"mysites/{domain}.pem", f"cached/{domain}.pem")
+copyfile(f"mysites/{domain}.sig", f"cached/{domain}.sig")
+copyfile(f"mysites/{domain}.zip", f"cached/{domain}.zip")
 
 
 
@@ -114,6 +115,8 @@ http_port = client(serv_port, f"is_{domain}")
 
 print("Получаем все порты...")
 ports = port_check(serv_port)
+
+print(ports)
 
 print("Публикуем сайт...")
 for port in tqdm(ports):

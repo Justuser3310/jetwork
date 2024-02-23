@@ -172,7 +172,7 @@ def port_check(your_port):
 
 	checks = list(range(4000, 4200))
 	checks.remove(your_port)
-	for port in tqdm(range(4000, 4200)):
+	for port in tqdm(checks):
 		if client(port, "ping"):
 			ports.append(port)
 

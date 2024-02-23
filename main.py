@@ -24,6 +24,7 @@ def reverse_proxy(dest, port = 8000):
 	elif name == "nt":
 		system(f"bore.exe local {port} --to jetwork.404.mn --port {dest}")
 
+
 # Стартуем проброс порта
 # http сервер
 global http_port
@@ -46,15 +47,15 @@ http.start()
 sleep(1)
 os.chdir("../") # возвращаемся в корень
 # сервер для пинга
-server = Thread(target = server, args=(serv_port,))
+server = Thread(target = server, args=(http_port,))
 server.start()
 
 #print(client(8000, "ping"))
 #ports = port_check(serv_port)
 #print(ports)
 
-#client(4140, "ping")
-
+#print(client(4015, "ping"))
+#print(client(4137, "is_just.jet"))
 
 '''
 # Режим отладки
