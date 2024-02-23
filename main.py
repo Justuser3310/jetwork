@@ -50,7 +50,8 @@ if mode == 0:
 	serv.start()
 elif mode == 1:
 	pport = int(input())
-	port_dest = client(pport, "is_just.jet")
-	if port_dest != "not exist":
-		client(port_dest, "get_just.jet")
+	port_dest = client(pport, f"publish_just.jet<>{http_port}")
+	print(port_dest)
+#	if port_dest != "not exist":
+#		client(port_dest, "get_just.jet")
 

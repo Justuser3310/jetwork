@@ -18,7 +18,7 @@ from domain_check import *
 # 1. [+] Пинг
 # 2. [+] Проверка существования сайта
 # 3. [+] Передача сайта
-# 4. Приём рассылки сайтов
+# 4. [+] Приём рассылки сайтов
 # 5. Проверка всех сайтов
 
 def port_gen():
@@ -51,6 +51,7 @@ def server(http_port):
 		while True:
 			try:
 				op = conn.recv(1024).decode()
+				print(op)
 			except:
 				pass
 			if not op:
@@ -60,22 +61,28 @@ def server(http_port):
 				conn.send("pong".encode())
 			elif op[:3] == "is_":
 				check = op[3:]
-				print(check)
-				# Защита от доступа выше
+				# Защита от доступа выше и т.п.
 				check = domain_ok(check)
-				print(check)
 
 				if os.path.exists(f'cached/{check}'):
 					conn.send(str(http_port).encode())
 				else:
 					conn.send("not_exist".encode())
+			elif op[:8] == "publish_":
+				data = op[8:]
+				site, port = data.split("<>")
+				site = domain_ok(site)
+				if site:
+					conn.send("accepted".encode())
+					client(port, f"get_{site}")
+
 		conn.close()
 
 # op = operation
 def client(port, op = "ping"):
 	host = 'jetwork.404.mn'
 
-	if op == "ping" or op[:3] == "is_":
+	if op == "ping" or op[:3] == "is_" or op[:8] == "publish_":
 		s = socket.socket()
 		try:
 			s.connect((host, port))
