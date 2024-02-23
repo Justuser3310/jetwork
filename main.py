@@ -37,6 +37,21 @@ rp = Thread(target = reverse_proxy, args=(serv_port, 8001))
 rp.start()
 print(f"Порт сервера: {serv_port}")
 
+
+
+# Стартуем сервисы
+#http сервер
+http = Thread(target = server_http)
+http.start()
+sleep(1)
+os.chdir("../") # возвращаемся в корень
+# сервер для пинга
+server = Thread(target = server, args=(serv_port,))
+server.start()
+
+
+'''
+# Режим отладки
 mode = 1
 
 if mode == 0:
@@ -55,3 +70,4 @@ elif mode == 1:
 #	if port_dest != "not exist":
 #		client(port_dest, "get_just.jet")
 
+'''

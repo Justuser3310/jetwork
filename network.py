@@ -35,7 +35,7 @@ def server_http():
 	os.chdir("cached")
 	os.system("python -m http.server")
 
-def server(http_port):
+def server(server_port):
 	host = "127.0.0.1"
 	port = 8001
 
