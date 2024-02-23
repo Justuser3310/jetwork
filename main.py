@@ -49,6 +49,12 @@ os.chdir("../") # возвращаемся в корень
 server = Thread(target = server, args=(serv_port,))
 server.start()
 
+#print(client(8000, "ping"))
+#ports = port_check(serv_port)
+#print(ports)
+
+#client(4140, "ping")
+
 
 '''
 # Режим отладки

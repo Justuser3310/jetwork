@@ -1,8 +1,10 @@
 from os import system, mkdir
 from db import *
+from shutil import copyfile, make_archive, rmtree
+from tqdm import tqdm
 
 from verify import *
-from shutil import copyfile, make_archive, rmtree
+from network import *
 
 print("(1) Создать сайт")
 print("(2) Обновить сайт")
@@ -89,4 +91,30 @@ elif op == "3":
 	make_archive(f"mysites/{domain}", "zip", f"mysites/{domain}")
 	sign(f"mysites/{domain}.zip", f"mysites/{domain}.key", f"mysites/{domain}")
 
+	exit()
 
+
+# Копируем файлы из mysites в cached
+copyfile(f"mysites/{domain}", "cached/{domain}")
+copyfile(f"mysites/{domain}.pem", "cached/{domain}.pem")
+copyfile(f"mysites/{domain}.sig", "cached/{domain}.sig")
+copyfile(f"mysites/{domain}.zip", "cached/{domain}.zip")
+
+
+
+print("Опубликовать сайт?")
+pub = input("y/n >> ")
+
+if pub == "n":
+	exit()
+
+print("Введите ваш порт сервера (при запуске main.py)")
+serv_port = int(input(">> "))
+http_port = client(serv_port, f"is_{domain}")
+
+print("Получаем все порты...")
+ports = port_check(serv_port)
+
+print("Публикуем сайт...")
+for port in tqdm(ports):
+	client(port, f"publish_{domain}<>{http_port}")

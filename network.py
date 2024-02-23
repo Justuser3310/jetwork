@@ -8,6 +8,7 @@ from random import randint
 from shutil import unpack_archive
 # Убираем ненужное (../some => some)
 from re import compile, sub
+# Timeout для команды
 
 from verify import *
 from domain_check import *
@@ -30,12 +31,11 @@ def port_gen():
 		port = randint(4000, 4200)
 	return port
 
-
 def server_http():
 	os.chdir("cached")
 	os.system("python -m http.server")
 
-def server(server_port):
+def server(http_port):
 	host = "127.0.0.1"
 	port = 8001
 
@@ -51,7 +51,6 @@ def server(server_port):
 		while True:
 			try:
 				op = conn.recv(1024).decode()
-				print(op)
 			except:
 				pass
 			if not op:
@@ -78,6 +77,17 @@ def server(server_port):
 
 		conn.close()
 
+def recv(q, s):
+	okay = False
+	while not okay:
+		try:
+			data = s.recv(1024).decode()
+			okay = True
+		except:
+			pass
+	q.put(data)
+
+import multiprocessing as mp
 # op = operation
 def client(port, op = "ping"):
 	host = 'jetwork.404.mn'
@@ -90,16 +100,26 @@ def client(port, op = "ping"):
 			return None
 
 		s.send(op.encode())
-		okay = False
-		while not okay:
-			try:
-				data = s.recv(1024).decode()
-				okay = True
-			except:
-				pass
-		print(data)
+
+		# Канал обмена процесс - наша функция
+		q = mp.Queue()
+		# Стартуем процесс получения ответа
+		p = mp.Process(target=recv, args=(q, s))
+		p.start()
+		# Ждём 10 секунд - максимум
+		p.join(10)
+
+		try:
+			data = q.get(block=False)
+		except:
+			data = None
+
+		# Если процесс жив - убираем
+		if p.is_alive():
+			p.terminate()
 
 		s.close()
+
 		return data
 	elif op[:4] == "get_":
 		site = op[4:]
@@ -144,3 +164,16 @@ def client(port, op = "ping"):
 			# Удаляем фальшивые файлы
 			os.remove(f"verify/{site}.zip")
 			os.remove(f"verify/{site}.sig")
+
+
+from tqdm import tqdm
+def port_check(your_port):
+	ports = []
+
+	checks = list(range(4000, 4200))
+	checks.remove(your_port)
+	for port in tqdm(range(4000, 4200)):
+		if client(port, "ping"):
+			ports.append(port)
+
+	return ports
