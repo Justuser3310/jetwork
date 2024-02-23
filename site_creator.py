@@ -33,6 +33,11 @@ if op == "1":
 		conf = {"type": "dynamic", "ver": 1, "port": int(port)}
 	write(conf, f"mysites/{domain}/config.json")
 
+	# Создаём index.html для загрузки сайта
+	with open(f"mysites/{domain}/index.html", "w") as f:
+		f.write("<h1> Hello jetwork! </h1>")
+	f.close()
+
 	# Архивируем и создаём сигнатуру для подтверждения неизменности архива
 	make_archive(f"mysites/{domain}", "zip", f"mysites/{domain}")
 	sign(f"mysites/{domain}.zip", f"mysites/{domain}.key", f"mysites/{domain}")
@@ -95,7 +100,10 @@ elif op == "3":
 
 
 # Копируем файлы из mysites в cached
-rmtree(f"cached/{domain}")
+try:
+	rmtree(f"cached/{domain}")
+except:
+	pass
 copytree(f"mysites/{domain}", f"cached/{domain}")
 copyfile(f"mysites/{domain}.pem", f"cached/{domain}.pem")
 copyfile(f"mysites/{domain}.sig", f"cached/{domain}.sig")

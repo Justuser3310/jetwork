@@ -5,7 +5,7 @@ from time import sleep
 from network import *
 
 # Здесь общий запуск всех файлов и команд
-'''
+
 # Проверка обновлений
 from sys import argv
 if len(argv) == 1:
@@ -15,7 +15,6 @@ if len(argv) == 1:
 	system("python main.py updated")
 	exit()
 print("\nУспешно перезагружено!")
-'''
 
 # Порт для приёма всяких запросов
 def reverse_proxy(dest, port = 8000):
@@ -50,31 +49,15 @@ os.chdir("../") # возвращаемся в корень
 server = Thread(target = server, args=(http_port,))
 server.start()
 
+
+# Стартуем интерфейс
+system("python -m streamlit run --server.address=0.0.0.0 interface.py")
+
+
+
 #print(client(8000, "ping"))
 #ports = port_check(serv_port)
 #print(ports)
 
 #print(client(4015, "ping"))
 #print(client(4137, "is_just.jet"))
-
-'''
-# Режим отладки
-mode = 1
-
-if mode == 0:
-	serv_http = Thread(target = server_http)
-	serv_http.start()
-
-	sleep(1)
-	os.chdir("../") # возвращаемся в корень
-
-	serv = Thread(target = server, args=(http_port,))
-	serv.start()
-elif mode == 1:
-	pport = int(input())
-	port_dest = client(pport, f"publish_just.jet<>{http_port}")
-	print(port_dest)
-#	if port_dest != "not exist":
-#		client(port_dest, "get_just.jet")
-
-'''
