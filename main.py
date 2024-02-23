@@ -51,7 +51,7 @@ server.start()
 
 
 # Стартуем интерфейс
-system("python -m streamlit run --server.address=0.0.0.0 interface.py")
+system("python -m streamlit run --server.address=127.0.0.1 interface.py")
 
 
 
