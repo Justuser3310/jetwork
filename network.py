@@ -8,7 +8,8 @@ from random import randint
 from shutil import unpack_archive
 # Убираем ненужное (../some => some)
 from re import compile, sub
-# Timeout для команды
+# Работа с БД
+from db import read
 
 from verify import *
 from domain_check import *
@@ -123,6 +124,21 @@ def client(port, op = "ping"):
 		return data
 	elif op[:4] == "get_":
 		site = op[4:]
+
+		# Проверяем версию если сайт кеширован
+		if os.path.exists(f"cached/{site}"):
+			# Версия запрашиваемого
+			dest_conf = get(f"http://{host}:{str(port)}/{site}/config.json")
+			conf_unform = dest_ver.content.decode('utf8')
+			conf = json.loads(conf_unform)
+			dest_ver = conf["ver"]
+			# Версия нашего сайта
+			our_conf = read(f"cached/{site}/config.json")
+			our_ver = our_conf["ver"]
+			# Если версия не новее - не скачиваем
+			if our_ver >= dest_ver:
+				return "old"
+
 		# Скачиваем файлы
 		g_site = get(f"http://{host}:{str(port)}/{site}.zip")
 		print('SIZE: ', g_site.headers['Content-Length']) # Размер

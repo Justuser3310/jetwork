@@ -7,5 +7,5 @@ from os import walk
 sites = next(walk('cached/'), (None, None, []))[1]
 
 for i in sites:
-	addr = f"http://127.0.0.1:8000/{i}/index.html"
+	addr = f"http://127.0.0.1:8000/{i}"
 	f"[{i}]({addr})"
