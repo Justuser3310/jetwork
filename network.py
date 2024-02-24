@@ -187,6 +187,7 @@ def client(port, op = "ping"):
 				# Сохраняем ключ злоумышленника
 				os.replace(f"verify/{site}.pem", f"verify/{site}.pem.FAKE")
 				print(f"[!] Порт злоумышленника: {port}")
+				return "fake"
 
 		if okay:
 			# Перемещаем файлы, т.к. всё хорошо
