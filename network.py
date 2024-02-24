@@ -5,7 +5,7 @@ from requests import get
 import os
 from random import randint
 # Работа с архивами
-from shutil import unpack_archive
+from shutil import unpack_archive, copytree, rmtree
 # Убираем ненужное (../some => some)
 from re import compile, sub
 # Работа с БД и json
@@ -165,19 +165,39 @@ def client(port, op = "ping"):
 		else:
 			okay = verify(f"verify/{site}.zip", f"verify/{site}.pem", f"verify/{site}.sig")
 
+		# Распаковываем архив с сайтом
+		unpack_archive(f"verify/{site}.zip", f"verify/{site}")
+
+		# Вторичная проверка версии если сайт в кэше
+		# (мало ли какие гении нехорошие появятся)
+		if os.path.exists(f'cached/{site}'):
+			# Версия полученного
+			dest_conf = read(f"verify/{site}/config.json")
+			dest_ver = dest_conf["ver"]
+			# Версия нашего сайта
+			our_conf = read(f"cached/{site}/config.json")
+			our_ver = our_conf["ver"]
+			# Если версия не новее - злоумышленник
+			if our_ver >= dest_ver:
+				print("[!] Обнаружена подмена версии сайта.")
+				# Сохраняем ключ злоумышленника
+				os.replace(f"verify/{site}.pem", f"verify/{site}.pem.FAKE")
+				print(f"[!] Порт злоумышленника: {port}")
+
 		if okay:
 			# Перемещаем файлы, т.к. всё хорошо
 			os.replace(f"verify/{site}.zip", f"cached/{site}.zip")
 			os.replace(f"verify/{site}.sig", f"cached/{site}.sig")
 			os.replace(f"verify/{site}.pem", f"cached/{site}.pem")
-			# Распаковываем архив с сайтом
-			unpack_archive(f"cached/{site}.zip", f"cached/{site}")
+			# Переносим папку с файлами
+			copytree(f"verify/{site}", f"cached/{site}")
+			rmtree(f"verify/{site}")
 		else:
 			print("[!] Обнаружена подмена сайта.")
 			# Сохраняем ключ злоумышленника
 			os.replace(f"verify/{site}.pem", f"verify/{site}.pem.FAKE")
 			print(f"[!] Порт злоумышленника: {port}")
-			print(f"[!] Ключ злоумышленника сохранён в verify/{site}.pem.FAKE\n")
+			print(f"[!] Ключ (вероятно) злоумышленника сохранён в verify/{site}.pem.FAKE\n")
 			# Удаляем фальшивые файлы
 			os.remove(f"verify/{site}.zip")
 			os.remove(f"verify/{site}.sig")
