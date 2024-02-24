@@ -94,6 +94,10 @@ import multiprocessing as mp
 def client(port, op = "ping"):
 	host = 'jetwork.404.mn'
 
+	# Если порт не определён
+	if not port:
+		return None
+
 	if op == "ping" or op[:3] == "is_" or op[:8] == "publish_":
 		s = socket.socket()
 		try:
