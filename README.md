@@ -47,15 +47,15 @@ https://t.me/justuser31_chat
 ***
 #### Клиент
 
-![image](https://github.com/Justuser3310/jetwork/blob/main/images/jetwork_client.png?raw=true)
+![](https://github.com/Justuser3310/jetwork/blob/main/images/jetwork_client.png)
 
 ***
 #### Статичный сайт
 
-![image](https://github.com/Justuser3310/jetwork/assets/53183489/9d197fea-7841-4e9d-a4af-82718b1edc61)
+![](https://github.com/Justuser3310/jetwork/blob/main/images/jetwork_static.png)
 
 ***
 #### Динамичный сайт
 
-![image](https://github.com/Justuser3310/jetwork/assets/53183489/a6a18486-f483-49f2-9051-c55f21271228)
+![](https://github.com/Justuser3310/jetwork/blob/main/images/jetwork_dynamic.png)
 
