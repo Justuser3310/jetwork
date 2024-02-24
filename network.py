@@ -129,7 +129,7 @@ def client(port, op = "ping"):
 		if os.path.exists(f"cached/{site}"):
 			# Версия запрашиваемого
 			dest_conf = get(f"http://{host}:{str(port)}/{site}/config.json")
-			conf_unform = dest_ver.content.decode('utf8')
+			conf_unform = dest_conf.content.decode('utf8')
 			conf = json.loads(conf_unform)
 			dest_ver = conf["ver"]
 			# Версия нашего сайта
