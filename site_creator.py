@@ -30,7 +30,10 @@ if op == "1":
 
 	if type == "1":
 		conf = {"type": "static", "ver": 1}
+		print("ПРИМЕЧАНИЕ: index.html обязателен.")
 	elif type == "2":
+		print("В разработке...")
+		exit()
 		port = input("Порт: ")
 		conf = {"type": "dynamic", "ver": 1, "port": int(port)}
 	write(conf, f"mysites/{domain}/config.json")
