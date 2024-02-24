@@ -8,8 +8,9 @@ from random import randint
 from shutil import unpack_archive
 # Убираем ненужное (../some => some)
 from re import compile, sub
-# Работа с БД
+# Работа с БД и json
 from db import read
+from json import loads
 
 from verify import *
 from domain_check import *
@@ -130,7 +131,7 @@ def client(port, op = "ping"):
 			# Версия запрашиваемого
 			dest_conf = get(f"http://{host}:{str(port)}/{site}/config.json")
 			conf_unform = dest_conf.content.decode('utf8')
-			conf = json.loads(conf_unform)
+			conf = loads(conf_unform)
 			dest_ver = conf["ver"]
 			# Версия нашего сайта
 			our_conf = read(f"cached/{site}/config.json")
