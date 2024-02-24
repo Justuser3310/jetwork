@@ -190,6 +190,8 @@ def client(port, op = "ping"):
 			os.replace(f"verify/{site}.sig", f"cached/{site}.sig")
 			os.replace(f"verify/{site}.pem", f"cached/{site}.pem")
 			# Переносим папку с файлами
+			if os.path.exists(f'cached/{site}'):
+				rmtree(f"cached/{site}")
 			copytree(f"verify/{site}", f"cached/{site}")
 			rmtree(f"verify/{site}")
 		else:
