@@ -57,6 +57,7 @@ https://t.me/justuser31_chat
 `python site_creator.py`
 
 Далее следовать подсказкам.
+Существование index.html ОБЯЗАТЕЛЬНО.
 
 <br>
 <br>
