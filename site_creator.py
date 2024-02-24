@@ -9,6 +9,8 @@ from network import *
 print("(1) Создать сайт")
 print("(2) Обновить сайт")
 print("(3) Сменить тип")
+print("Enter для просто публикации.")
+
 op = input(">> ")
 
 if op == "1":
@@ -98,6 +100,13 @@ elif op == "3":
 
 	exit()
 
+elif op == "":
+	domain = input("\nДомен сайта: ")
+	if not os.path.exists(f"mysites/{domain}"):
+		print("Не существует такого сайта.")
+		exit()
+	pub = "y"
+
 
 # Копируем файлы из mysites в cached
 try:
@@ -110,9 +119,9 @@ copyfile(f"mysites/{domain}.sig", f"cached/{domain}.sig")
 copyfile(f"mysites/{domain}.zip", f"cached/{domain}.zip")
 
 
-
-print("Опубликовать сайт?")
-pub = input("y/n >> ")
+if op != "":
+	print("Опубликовать сайт?")
+	pub = input("y/n >> ")
 
 if pub == "n":
 	exit()
