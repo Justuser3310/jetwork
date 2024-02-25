@@ -244,6 +244,7 @@ from tqdm import tqdm
 from time import sleep
 def port_check(your_port):
 	global ports
+	ports = []
 
 	checks = list(range(4000, 4200))
 	checks.remove(your_port)
