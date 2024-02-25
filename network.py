@@ -11,6 +11,8 @@ from re import compile, sub
 # Работа с БД и json
 from db import read
 from json import loads
+# Логирование ошибок
+import logging
 
 from verify import *
 from domain_check import *
@@ -38,8 +40,9 @@ def server_http():
 		try:
 			os.chdir("cached")
 			os.system("python -m http.server")
-		except:
+		except Exception as e:
 			print("SERVER_HTTP FALLED")
+			logging.critical(e, exc_info=True)
 
 def server(http_port):
 	while True:
@@ -85,8 +88,9 @@ def server(http_port):
 
 				conn.close()
 
-		except:
-			print("SERVER FALLED")
+		except Exception as e:
+			print("SERVER_HTTP FALLED")
+			logging.critical(e, exc_info=True)
 
 
 from time import time
