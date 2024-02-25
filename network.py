@@ -88,7 +88,12 @@ def server(http_port):
 		except:
 			print("SERVER FALLED")
 
-def recv(data):
+
+from time import time
+from threading import Thread
+from queue import Queue
+
+def recv(s, data_out):
 	okay = False
 	while not okay:
 		try:
@@ -96,9 +101,8 @@ def recv(data):
 			okay = True
 		except:
 			pass
+	data_out.put(data)
 
-from time import time
-from threading import Thread
 # op = operation
 def client(port, op = "ping"):
 	host = 'jetwork.404.mn'
@@ -116,17 +120,22 @@ def client(port, op = "ping"):
 
 		s.send(op.encode())
 
-		data = None
-		ping = Thread(target = recv, args=(data,))
+
+		data = Queue()
+
+		ping = Thread(target = recv, args=(s, data,))
 		ping.daemon = True
 		# Стартуем пинг
 		ping.start()
 
 		# Ждём 8 секунд
-		ping.join(8)
+		ping.join(6)
 
+		if not data.empty():
+			return data.get()
+		else:
+			return None
 
-		return data
 	elif op[:4] == "get_":
 		site = op[4:]
 
@@ -214,7 +223,14 @@ def client(port, op = "ping"):
 			os.remove(f"verify/{site}.sig")
 
 
+def check_current(ports, cur_port):
+	if client(cur_port, "ping"):
+		ports.append(cur_port)
+		print("CATHCED: ", cur_port)
+	return
+
 from tqdm import tqdm
+from time import sleep
 def port_check(your_port):
 	ports = []
 
@@ -223,6 +239,14 @@ def port_check(your_port):
 	for port in tqdm(checks):
 		if client(port, "ping"):
 			ports.append(port)
+			print("CATHCED: ", port)
+#		ping = Thread(target = check_current, args=(ports, port,))
+#		ping.start()
+
+#	sleep(10)
 
 	return ports
 
+
+#print( port_check(4001) )
+#print( client(4184, "ping") )
