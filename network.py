@@ -39,7 +39,7 @@ def server_http():
 			os.chdir("cached")
 			os.system("python -m http.server")
 		except:
-		print("SERVER_HTTP FALLED")
+			print("SERVER_HTTP FALLED")
 
 def server(http_port):
 	while True:
