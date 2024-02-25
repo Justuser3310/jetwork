@@ -229,7 +229,6 @@ def check_current(cur_port):
 	global ports
 	if client(cur_port, "ping"):
 		ports.append(cur_port)
-		print("CATHCED: ", cur_port)
 
 def check_wait(port):
 	ping = Thread(target = check_current, args=(port,))
