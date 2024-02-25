@@ -105,6 +105,7 @@ def recv(s, data_out):
 			okay = True
 		except:
 			pass
+	print(data)
 	data_out.put(data)
 
 # op = operation
@@ -238,6 +239,7 @@ def check_wait(port):
 	ping = Thread(target = check_current, args=(port,))
 	ping.start()
 	ping.join(8)
+	exit()
 
 # 1. Стартуем все потоки которые вырубают другие потоки, если прошло 8 секунд
 # 2. Ожидающие потоки стартуют проверку порта
@@ -262,4 +264,4 @@ def port_check(your_port):
 
 
 #print( port_check(4001) )
-#print( client(4184, "ping") )
+#print( client(4085, "ping") )

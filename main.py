@@ -22,12 +22,15 @@ print("\nУспешно перезагружено!")
 from proxy import *
 
 http_port = port_gen()
+print(f"HTTP: {http_port}")
 rp_http = Thread(target = watch_http, args=(http_port,))
 rp_http.start()
 
 serv_port = port_gen()
+print(f"SERV: {serv_port}")
 rp_serv = Thread(target = watch_serv, args=(serv_port,))
 rp_serv.start()
+
 
 
 # Стартуем сервисы
