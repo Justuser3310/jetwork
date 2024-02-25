@@ -18,27 +18,16 @@ if len(argv) == 1:
 	exit()
 print("\nУспешно перезагружено!")
 
-# Порт для приёма всяких запросов
-def reverse_proxy(dest, port = 8000):
-	if name == "posix":
-		system(f"./bore local {port} --to jetwork.404.mn --port {dest}")
-	elif name == "nt":
-		system(f"bore.exe local {port} --to jetwork.404.mn --port {dest}")
 
+from proxy import *
 
-# Стартуем проброс порта
-# http сервер
-global http_port
 http_port = port_gen()
-rp_http = Thread(target = reverse_proxy, args=(http_port,))
+rp_http = Thread(target = watch_http, args=(http_port,))
 rp_http.start()
-print(f"Порт http сервера: {http_port}")
-# сервер для пинга
-serv_port = port_gen()
-rp = Thread(target = reverse_proxy, args=(serv_port, 8001))
-rp.start()
-print(f"Порт сервера: {serv_port}")
 
+serv_port = port_gen()
+rp_serv = Thread(target = watch_serv, args=(serv_port,))
+rp_serv.start()
 
 
 # Стартуем сервисы
