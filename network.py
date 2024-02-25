@@ -226,6 +226,3 @@ def port_check(your_port):
 
 	return ports
 
-
-#print(client(44, "ping"))
-port_check(4001)
