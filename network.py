@@ -124,7 +124,6 @@ def client(port, op = "ping"):
 		data = Queue()
 
 		ping = Thread(target = recv, args=(s, data,))
-		ping.daemon = True
 		# Стартуем пинг
 		ping.start()
 
@@ -223,27 +222,37 @@ def client(port, op = "ping"):
 			os.remove(f"verify/{site}.sig")
 
 
-def check_current(ports, cur_port):
+global ports
+ports = []
+
+def check_current(cur_port):
+	global ports
 	if client(cur_port, "ping"):
 		ports.append(cur_port)
 		print("CATHCED: ", cur_port)
-	return
+
+def check_wait(port):
+	ping = Thread(target = check_current, args=(port,))
+	ping.start()
+	ping.join(8)
+
+# 1. Стартуем все потоки которые вырубают другие потоки, если прошло 8 секунд
+# 2. Ожидающие потоки стартуют проверку порта
+# => моментальная проверка 200 портов
 
 from tqdm import tqdm
 from time import sleep
 def port_check(your_port):
-	ports = []
+	global ports
 
 	checks = list(range(4000, 4200))
 	checks.remove(your_port)
-	for port in tqdm(checks):
-		if client(port, "ping"):
-			ports.append(port)
-			print("CATHCED: ", port)
-#		ping = Thread(target = check_current, args=(ports, port,))
-#		ping.start()
 
-#	sleep(10)
+	for port in tqdm(checks):
+		wait = Thread(target = check_wait, args=(port,))
+		wait.start()
+
+	sleep(10)
 
 	return ports
 
