@@ -24,9 +24,11 @@ while True:
 	with sidebar:
 		st.success(f"Ваш порт: {our_port}")
 
-		ports = read()['ports']
-		for i in ports:
-			st.warning(f"{i}")
+		conf = read()
+		if 'ports' in conf:
+			ports = conf['ports']
+			for i in ports:
+				st.warning(f"{i}")
 
 	with main:
 		# Получаем все сайты
