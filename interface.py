@@ -1,5 +1,4 @@
 import streamlit as st
-#from streamlit import empty as c
 
 from os import walk
 from time import sleep

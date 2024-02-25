@@ -2,6 +2,7 @@ from os import system, mkdir
 from db import *
 from shutil import copyfile, make_archive, rmtree, copytree
 from tqdm import tqdm
+from time import sleep
 
 from verify import *
 from network import *
@@ -9,6 +10,7 @@ from network import *
 print("(1) Создать сайт")
 print("(2) Обновить сайт")
 print("(3) Сменить тип")
+print("(4) Авто-раздача сайта")
 print("Enter для просто публикации.")
 
 op = input(">> ")
@@ -102,6 +104,24 @@ elif op == "3":
 	sign(f"mysites/{domain}.zip", f"mysites/{domain}.key", f"mysites/{domain}")
 
 	exit()
+
+elif op == "4":
+	domain = input("\nДомен сайта: ")
+	if not os.path.exists(f"mysites/{domain}"):
+		print("Не существует такого сайта.")
+		exit()
+
+	print("\nВведите ваш порт сервера (при запуске main.py)")
+	serv_port = int(input(">> "))
+	http_port = client(serv_port, f"is_{domain}")
+
+	print("\nСтарт вечной раздачи...")
+	while True:
+		ports = port_check(serv_port)
+		sleep(1)
+		for port in tqdm(ports):
+			client(port, f"publish_{domain}<>{http_port}")
+		sleep(5)
 
 elif op == "":
 	domain = input("\nДомен сайта: ")
