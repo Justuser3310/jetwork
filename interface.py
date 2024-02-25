@@ -2,6 +2,7 @@ import streamlit as st
 
 from os import walk
 from time import sleep
+from db import *
 
 # Получаем порт со входа
 from sys import argv
@@ -23,7 +24,7 @@ while True:
 	with sidebar:
 		st.success(f"Ваш порт: {our_port}")
 
-		ports = ['Тут скоро', 'будет что-то']
+		ports = read()['ports']
 		for i in ports:
 			st.warning(f"{i}")
 

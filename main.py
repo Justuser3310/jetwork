@@ -3,6 +3,7 @@ from threading import Thread
 from time import sleep
 
 from network import *
+from updater import *
 
 # Здесь общий запуск всех файлов и команд
 
@@ -50,6 +51,10 @@ os.chdir("../") # возвращаемся в корень
 server = Thread(target = server, args=(http_port,))
 server.start()
 
+
+# Стартуем авто-поиск портов и авто-обновление сайтов
+updater = Thread(target = update_demon, args=(serv_port,))
+updater.start()
 
 # Стартуем интерфейс
 system(f"python -m streamlit run --server.address=127.0.0.1 interface.py {serv_port}")
