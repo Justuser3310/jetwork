@@ -6,10 +6,13 @@ from network import *
 
 def update_demon(serv_port):
 	while True:
-		ports = port_check(serv_port)
+		try:
+			ports = port_check(serv_port)
 
-		conf = read()
-		conf["ports"] = ports
-		write(conf)
+			conf = read()
+			conf["ports"] = ports
+			write(conf)
 
-		sleep(8)
+			sleep(8)
+		except:
+			print("UPDATER FALLED")

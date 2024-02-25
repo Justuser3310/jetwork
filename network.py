@@ -34,50 +34,59 @@ def port_gen():
 	return port
 
 def server_http():
-	os.chdir("cached")
-	os.system("python -m http.server")
+	while True:
+		try:
+			os.chdir("cached")
+			os.system("python -m http.server")
+		except:
+		print("SERVER_HTTP FALLED")
 
 def server(http_port):
-	host = "127.0.0.1"
-	port = 8001
-
-	s = socket.socket()
-	s.bind((host, port))
-
 	while True:
-		s.listen(2)
-		conn, address = s.accept()
+		try:
+			host = "127.0.0.1"
+			port = 8001
 
-		print("Connection from: " + str(address))
+			s = socket.socket()
+			s.bind((host, port))
 
-		while True:
-			try:
-				op = conn.recv(1024).decode()
-			except:
-				pass
-			if not op:
-				break
+			while True:
+				s.listen(2)
+				conn, address = s.accept()
 
-			if op == "ping":
-				conn.send("pong".encode())
-			elif op[:3] == "is_":
-				check = op[3:]
-				# Защита от доступа выше и т.п.
-				check = domain_ok(check)
+				print("Connection from: " + str(address))
 
-				if os.path.exists(f'cached/{check}'):
-					conn.send(str(http_port).encode())
-				else:
-					conn.send("not_exist".encode())
-			elif op[:8] == "publish_":
-				data = op[8:]
-				site, port = data.split("<>")
-				site = domain_ok(site)
-				if site:
-					conn.send("accepted".encode())
-					client(port, f"get_{site}")
+				while True:
+					try:
+						op = conn.recv(1024).decode()
+					except:
+						pass
+					if not op:
+						break
 
-		conn.close()
+					if op == "ping":
+						conn.send("pong".encode())
+					elif op[:3] == "is_":
+						check = op[3:]
+						# Защита от доступа выше и т.п.
+						check = domain_ok(check)
+
+						if os.path.exists(f'cached/{check}'):
+							conn.send(str(http_port).encode())
+						else:
+							conn.send("not_exist".encode())
+					elif op[:8] == "publish_":
+						data = op[8:]
+						site, port = data.split("<>")
+						site = domain_ok(site)
+						if site:
+							conn.send("accepted".encode())
+							client(port, f"get_{site}")
+
+				conn.close()
+
+		except:
+			print("SERVER FALLED")
 
 def recv(q, s):
 	okay = False
