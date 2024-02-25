@@ -6,6 +6,7 @@ from network import *
 
 # Здесь общий запуск всех файлов и команд
 
+
 # Проверка обновлений
 from sys import argv
 if len(argv) == 1:
@@ -51,8 +52,7 @@ server.start()
 
 
 # Стартуем интерфейс
-system("python -m streamlit run --server.address=127.0.0.1 interface.py")
-
+system(f"python -m streamlit run --server.address=127.0.0.1 interface.py {serv_port}")
 
 
 #print(client(8000, "ping"))
@@ -61,3 +61,5 @@ system("python -m streamlit run --server.address=127.0.0.1 interface.py")
 
 #print(client(4015, "ping"))
 #print(client(4137, "is_just.jet"))
+
+#client(4092, "publish_just.jet<>4066")
