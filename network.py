@@ -96,9 +96,7 @@ def recv(data):
 			okay = True
 		except:
 			pass
-#	q.put(data)
 
-import multiprocessing as mp
 from time import time
 from threading import Thread
 # op = operation
@@ -118,48 +116,14 @@ def client(port, op = "ping"):
 
 		s.send(op.encode())
 
-		'''
-		# Канал обмена процесс - наша функция
-		q = mp.Queue()
-		# Стартуем процесс получения ответа
-		p = mp.Process(target=recv, args=(q, s))
-		p.start()
-		# Ждём 10 секунд - максимум
-		p.join(10)
-
-		try:
-			data = q.get(block=False)
-		except:
-			data = None
-
-		# Если процесс жив - убираем
-		if p.is_alive():
-			p.terminate()
-
-		s.close()
-		'''
-
 		data = None
 		ping = Thread(target = recv, args=(data,))
 		ping.daemon = True
+		# Стартуем пинг
 		ping.start()
 
-		'''
-		# Засекаем когда мы начали ждать
-		start = time()
-
-		# Ждём 10 секунд
-		while time() - start < 3:
-			pass
-
-		#try:
-		#	ping._stop()
-		#except:
-		#	pass
-		ping.kill()
-		'''
-
-		ping.join(5)
+		# Ждём 8 секунд
+		ping.join(8)
 
 
 		return data
@@ -264,3 +228,4 @@ def port_check(your_port):
 
 
 #print(client(44, "ping"))
+port_check(4001)
