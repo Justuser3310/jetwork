@@ -88,7 +88,7 @@ def server(http_port):
 		except:
 			print("SERVER FALLED")
 
-def recv(q, s):
+def recv(data):
 	okay = False
 	while not okay:
 		try:
@@ -96,9 +96,11 @@ def recv(q, s):
 			okay = True
 		except:
 			pass
-	q.put(data)
+#	q.put(data)
 
 import multiprocessing as mp
+from time import time
+from threading import Thread
 # op = operation
 def client(port, op = "ping"):
 	host = 'jetwork.404.mn'
@@ -116,6 +118,7 @@ def client(port, op = "ping"):
 
 		s.send(op.encode())
 
+		'''
 		# Канал обмена процесс - наша функция
 		q = mp.Queue()
 		# Стартуем процесс получения ответа
@@ -134,6 +137,30 @@ def client(port, op = "ping"):
 			p.terminate()
 
 		s.close()
+		'''
+
+		data = None
+		ping = Thread(target = recv, args=(data,))
+		ping.daemon = True
+		ping.start()
+
+		'''
+		# Засекаем когда мы начали ждать
+		start = time()
+
+		# Ждём 10 секунд
+		while time() - start < 3:
+			pass
+
+		#try:
+		#	ping._stop()
+		#except:
+		#	pass
+		ping.kill()
+		'''
+
+		ping.join(5)
+
 
 		return data
 	elif op[:4] == "get_":
@@ -234,3 +261,6 @@ def port_check(your_port):
 			ports.append(port)
 
 	return ports
+
+
+#print(client(44, "ping"))
