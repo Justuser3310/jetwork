@@ -56,8 +56,6 @@ def update_demon(serv_port):
 				except:
 					pass
 
-			break
-			sleep(5)
 		except Exception as e:
 			print("UPDATER FALLED")
 			logging.critical(e, exc_info=True)
