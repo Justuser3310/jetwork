@@ -135,7 +135,6 @@ def client(port, op = "ping", host = 'jetwork.404.mn'):
 
 		s.send(op.encode())
 
-
 		data = Queue()
 
 		ping = Thread(target = recv, args=(s, data,))
@@ -144,6 +143,9 @@ def client(port, op = "ping", host = 'jetwork.404.mn'):
 
 		# Ждём 8 секунд
 		ping.join(6)
+
+		# Закрываем соединение
+		s.close()
 
 		if not data.empty():
 			return data.get()
