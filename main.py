@@ -24,11 +24,13 @@ from proxy import *
 http_port = port_gen()
 print(f"HTTP: {http_port}")
 rp_http = Thread(target = watch_http, args=(http_port,))
+rp_http.daemon = True
 rp_http.start()
 
 serv_port = port_gen()
 print(f"SERV: {serv_port}")
 rp_serv = Thread(target = watch_serv, args=(serv_port,))
+rp_serv.daemon = True
 rp_serv.start()
 
 
@@ -36,9 +38,11 @@ rp_serv.start()
 # Стартуем сервисы
 #http сервер
 http = Thread(target = server_http)
+http.daemon = True
 http.start()
 # сервер для пинга
 server = Thread(target = server, args=(http_port,))
+server.daemon = True
 server.start()
 
 
