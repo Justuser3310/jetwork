@@ -85,6 +85,18 @@ def server(http_port):
 						if site:
 							conn.send("accepted".encode())
 							client(port, f"get_{site}")
+					elif op == "check_all":
+						sites = next(os.walk('cached/'), (None, None, []))[1]
+						sites_comp = ""
+						for i in sites:
+							# Проверяем версию
+							ver = read(f"cached/{i}/config.json")["ver"]
+							sites_comp += i + f"_{ver}<>"
+						sites_comp = sites_comp[:-2]
+						if sites_comp == "":
+							conn.send("None".encode())
+						else:
+							conn.send(sites_comp.encode())
 
 				conn.close()
 
@@ -109,14 +121,12 @@ def recv(s, data_out):
 	data_out.put(data)
 
 # op = operation
-def client(port, op = "ping"):
-	host = 'jetwork.404.mn'
-
+def client(port, op = "ping", host = 'jetwork.404.mn'):
 	# Если порт не определён
 	if not port:
 		return None
 
-	if op == "ping" or op[:3] == "is_" or op[:8] == "publish_":
+	if op == "ping" or op[:3] == "is_" or op[:8] == "publish_" or op == "check_all":
 		s = socket.socket()
 		try:
 			s.connect((host, port))
