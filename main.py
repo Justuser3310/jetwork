@@ -37,8 +37,6 @@ rp_serv.start()
 #http сервер
 http = Thread(target = server_http)
 http.start()
-sleep(1)
-os.chdir("../") # возвращаемся в корень
 # сервер для пинга
 server = Thread(target = server, args=(http_port,))
 server.start()

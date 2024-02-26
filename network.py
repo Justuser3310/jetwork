@@ -38,8 +38,7 @@ def port_gen():
 def server_http():
 	while True:
 		try:
-			os.chdir("cached")
-			os.system("python -m http.server")
+			os.system("python -m http.server --directory cached")
 		except Exception as e:
 			print("SERVER_HTTP FALLED")
 			logging.critical(e, exc_info=True)
