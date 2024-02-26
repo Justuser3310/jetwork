@@ -85,18 +85,20 @@ def server(http_port):
 							conn.send("accepted".encode())
 							client(port, f"get_{site}")
 					elif op == "check_all":
-						sites = next(os.walk('cached/'), (None, None, []))[1]
-						sites_comp = ""
-						for i in sites:
-							# Проверяем версию
-							ver = read(f"cached/{i}/config.json")["ver"]
-							sites_comp += i + f"_{ver}<>"
-						sites_comp = sites_comp[:-2]
-						if sites_comp == "":
+						try:
+							sites = next(os.walk('cached/'), (None, None, []))[1]
+							sites_comp = ""
+							for i in sites:
+								# Проверяем версию
+								ver = read(f"cached/{i}/config.json")["ver"]
+								sites_comp += i + f"_{ver}<>"
+							sites_comp = sites_comp[:-2]
+							if sites_comp == "":
+								conn.send("None".encode())
+							else:
+								conn.send(sites_comp.encode())
+						except:
 							conn.send("None".encode())
-						else:
-							conn.send(sites_comp.encode())
-
 				conn.close()
 
 		except Exception as e:

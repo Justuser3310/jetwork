@@ -44,6 +44,7 @@ server.start()
 
 # Стартуем авто-поиск портов и авто-обновление сайтов
 updater = Thread(target = update_demon, args=(serv_port,))
+updater.daemon = True
 updater.start()
 
 # Стартуем интерфейс
