@@ -45,7 +45,8 @@ def update_demon(serv_port):
 								else:
 									# Если версия новее
 									print("Ver_new: ", el)
-									client(port, f"get_{el}")
+									http_port = client(port, f"is_{el}")
+									client(http_port, f"get_{el}")
 								found = True
 								break # Если нашли - выходим
 
