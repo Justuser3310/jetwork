@@ -18,7 +18,7 @@ op = input(">> ")
 if op == "1":
 	from domain_check import *
 
-	print("\nДомены: .jet, .jw, .404, .dash, .awesome")
+	print("\nДомены: .jet, .jw, .404, .dash, .awesome, .mirror")
 	domain = input("Домен сайта: ")
 	if not domain_ok(domain):
 		print("Неправильный формат или домен.")

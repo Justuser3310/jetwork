@@ -1,7 +1,7 @@
 from re import compile, sub
 
 def domain_ok(domain):
-	domains = ["jet", "jw", "404", "dash", "awesome"]
+	domains = ["jet", "jw", "404", "dash", "awesome", "mirror"]
 
 	if domain.count(".") == 1:
 		if domain.split(".")[1] in domains:
