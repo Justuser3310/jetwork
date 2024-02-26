@@ -1,6 +1,5 @@
 from os import system, name
-#from threading import Thread
-from multiprocessing import Process
+from threading import Thread
 from time import sleep
 
 global http_out ; http_out = None
@@ -21,28 +20,28 @@ def proxy_serv(port):
 
 
 def watch_http(port):
-	run = Process(target=proxy_http, args=(port,))
+	run = Thread(target=proxy_http, args=(port,))
 	run.start()
 
 	global http_out
 	while True:
 		# Если команда вышла
-		if http_out:
-			run.terminate()
+		if http_out or not run.is_alive():
+			run.join(1)
 			http_out = None
-			run = Process(target=proxy_http, args=(port,))
+			run = Thread(target=proxy_http, args=(port,))
 			run.start()
 		sleep(1)
 
 def watch_serv(port):
-	run = Process(target=proxy_serv, args=(port,))
+	run = Thread(target=proxy_serv, args=(port,))
 	run.start()
 
 	global serv_out
 	while True:
-		if serv_out:
-			run.terminate()
+		if serv_out or not run.is_alive():
+			run.join(1)
 			serv_out = None
-			run = Process(target=proxy_serv, args=(port,))
+			run = Thread(target=proxy_serv, args=(port,))
 			run.start()
 		sleep(1)
