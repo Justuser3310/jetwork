@@ -7,7 +7,7 @@ def domain_ok(domain):
 		if domain.split(".")[1] in domains:
 			# ../some => some
 			# Защита от проверки папок выше, чем нужно и др.
-			regex = compile('[^a-zA-Zа-яА-ЯЁё._-]')
+			regex = compile('[^a-zA-Zа-яА-ЯЁё.-]')
 			c_domain = regex.sub('', domain)
 			if domain == c_domain:
 				return domain
