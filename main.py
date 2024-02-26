@@ -51,6 +51,12 @@ updater.start()
 system(f"python -m streamlit run --server.address=127.0.0.1 interface.py {serv_port}")
 
 
+while True:
+	try:
+		pass
+	except:
+		exit()
+
 #print(client(8000, "ping"))
 #ports = port_check(serv_port)
 #print(ports)
