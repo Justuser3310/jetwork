@@ -96,6 +96,7 @@ elif op == "3":
 		if clean == "y":
 			# Удаляем папку, сохраняем конфиг и копируем публичный ключ
 			rmtree(f"mysites/{domain}")
+			sleep(0.1)
 			system(f"mkdir mysites/{domain}")
 
 		conf["type"] = "dynamic"
