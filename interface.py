@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 from os import walk
 from time import sleep
@@ -11,7 +12,6 @@ our_port = argv[1]
 
 st.title('jetwork')
 
-# st.empty()
 ph = st.empty()
 
 while True:
@@ -40,9 +40,4 @@ while True:
 
 	sleep(3)
 	ph.empty()
-	#st.empty()
 	st.rerun()
-
-#while True:
-#	sleep(3)
-#	st.rerun()
