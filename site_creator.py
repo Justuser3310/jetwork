@@ -34,16 +34,15 @@ if op == "1":
 		conf = {"type": "static", "ver": 1}
 		print("ПРИМЕЧАНИЕ: index.html обязателен.")
 	elif type == "2":
-		print("В разработке...")
-		exit()
-		port = input("Порт: ")
+		port = input("Порт сервера: ")
 		conf = {"type": "dynamic", "ver": 1, "port": int(port)}
 	write(conf, f"mysites/{domain}/config.json")
 
-	# Создаём index.html для загрузки сайта
-	with open(f"mysites/{domain}/index.html", "w") as f:
-		f.write("<h1> Hello jetwork! </h1>")
-	f.close()
+	if type == "1":
+		# Создаём index.html для загрузки сайта
+		with open(f"mysites/{domain}/index.html", "w") as f:
+			f.write("<h1> Hello jetwork! </h1>")
+		f.close()
 
 	# Архивируем и создаём сигнатуру для подтверждения неизменности архива
 	make_archive(f"mysites/{domain}", "zip", f"mysites/{domain}")
@@ -54,6 +53,13 @@ elif op == "2":
 	if not os.path.exists(f"mysites/{domain}"):
 		print("Не существует такого сайта.")
 		exit()
+
+	conf = read(f"mysites/{domain}/config.json")
+	type = conf["type"]
+	if type == "dynamic":
+		port = input("Порт сервера: ")
+		conf["port"] = port
+		write(conf, f"mysites/{domain}/config.json")
 
 	# Обновляем версию
 	conf = read(f"mysites/{domain}/config.json")
@@ -79,11 +85,14 @@ elif op == "3":
 		conf = read(f"mysites/{domain}/config.json")
 		conf["type"] = "static"
 		conf.pop("port")
+		with open(f"mysites/{domain}/index.html", "w") as f:
+			f.write("<h1> Hello jetwork! </h1>")
+		f.close()
 	elif type == "2":
 		conf = read(f"mysites/{domain}/config.json")
-		port = input("Порт: ")
+		port = input("Порт сервера: ")
 
-		clean = input("Удалить все файлы (y/n): ")
+		clean = input("Удалить все лишние файлы сайта (y/n): ")
 		if clean == "y":
 			# Удаляем папку, сохраняем конфиг и копируем публичный ключ
 			rmtree(f"mysites/{domain}")
@@ -102,8 +111,6 @@ elif op == "3":
 	# Архивируем и создаём сигнатуру для подтверждения неизменности архива
 	make_archive(f"mysites/{domain}", "zip", f"mysites/{domain}")
 	sign(f"mysites/{domain}.zip", f"mysites/{domain}.key", f"mysites/{domain}")
-
-	exit()
 
 elif op == "4":
 	domain = input("\nДомен сайта: ")
@@ -140,6 +147,17 @@ copytree(f"mysites/{domain}", f"cached/{domain}")
 copyfile(f"mysites/{domain}.pem", f"cached/{domain}.pem")
 copyfile(f"mysites/{domain}.sig", f"cached/{domain}.sig")
 copyfile(f"mysites/{domain}.zip", f"cached/{domain}.zip")
+
+
+host = "jetwork.404.mn"
+# Проверяем тип сайта
+type = read(f"cached/{domain}/config.json")["type"]
+# Если динамический
+if type == "dynamic":
+	port = read(f"cached/{domain}/config.json")["port"]
+	with open(f"cached/{domain}/index.html", "w") as f:
+		f.write(f'<iframe src="http://{host}:{port}" style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"></iframe>')
+	f.close()
 
 
 if op != "":

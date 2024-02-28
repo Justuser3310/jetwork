@@ -239,6 +239,16 @@ def client(port, op = "ping", host = 'jetwork.404.mn'):
 			os.remove(f"verify/{site}.zip")
 			os.remove(f"verify/{site}.sig")
 
+		# Перезаписываем index.html на всякий случай
+		# Проверяем тип сайта
+		type = read(f"cached/{site}/config.json")["type"]
+		# Если динамический
+		if type == "dynamic":
+			port = read(f"cached/{site}/config.json")["port"]
+			with open(f"cached/{site}/index.html", "w") as f:
+				f.write(f'<iframe src="http://{host}:{port}" style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"></iframe>')
+			f.close()
+
 
 global ports
 ports = []
