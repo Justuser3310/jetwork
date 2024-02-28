@@ -26,8 +26,8 @@ from domain_check import *
 # 4. [+] Приём рассылки сайтов
 # 5. Проверка всех сайтов
 
-def port_gen():
-	port = randint(4000, 4200)
+def port_gen(st = 4000, end = 4200):
+	port = randint(st, end)
 	if client(port) == None:
 		return port
 
