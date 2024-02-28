@@ -97,7 +97,6 @@ elif op == "3":
 			# Удаляем папку, сохраняем конфиг и копируем публичный ключ
 			rmtree(f"mysites/{domain}")
 			system(f"mkdir mysites/{domain}")
-			copyfile(f"mysites/{domain}.pem", f"mysites/{domain}/{domain}.pem")
 
 		conf["type"] = "dynamic"
 		conf["port"] = int(port)
