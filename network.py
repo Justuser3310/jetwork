@@ -274,7 +274,7 @@ def port_check(your_port):
 	global ports
 	ports = []
 
-	checks = list(range(4000, 4200))
+	checks = list(range(25000, 25200))
 	checks.remove(your_port)
 
 	for port in tqdm(checks):
@@ -284,7 +284,3 @@ def port_check(your_port):
 	sleep(10)
 
 	return ports
-
-
-#print( port_check(4001) )
-#print( client(4085, "ping") )
