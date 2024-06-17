@@ -6,17 +6,17 @@ global http_out ; http_out = None
 def proxy_http(port):
 	global http_out
 	if name == "posix":
-		http_out = system(f"./bore local 8000 --to jetwork.404.mn --port {port}")
+		http_out = system(f"./bore local 8000 --to bore.pub --port {port}")
 	elif name == "nt":
-		http_out = system(f"bore local 8000 --to jetwork.404.mn --port {port}")
+		http_out = system(f"bore local 8000 --to bore.pub --port {port}")
 
 global serv_out ; serv_out = None
 def proxy_serv(port):
 	global serv_out
 	if name == "posix":
-		http_out = system(f"./bore local 8001 --to jetwork.404.mn --port {port}")
+		http_out = system(f"./bore local 8001 --to bore.pub --port {port}")
 	elif name == "nt":
-	  http_out = system(f"bore local 8001 --to jetwork.404.mn --port {port}")
+	  http_out = system(f"bore local 8001 --to bore.pub --port {port}")
 
 
 def watch_http(port):
