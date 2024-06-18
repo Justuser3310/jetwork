@@ -42,12 +42,12 @@ def update_sites(n, s_val):
 	domain = read()['domain']
 	# Если есть элемент в поиске
 	if s_val:
-		return html.Div([ dcc.Link(children=i, href=f'http://{domain}:8000/{s_val}',
+		return html.Div([ dcc.Link(children=i, href=f'{domain}/{s_val}',
 		target='_blank') ], className='sites_elem')
 
 	res = []
 	for i in next(walk('cached/'), (None, None, []))[1]:
-		res.append(html.Div([ dcc.Link(children=i, href=f'http://{domain}:8000/{i}',
+		res.append(html.Div([ dcc.Link(children=i, href=f'{domain}/{i}',
 													target='_blank') ], className='sites_elem'))
 	return res
 
