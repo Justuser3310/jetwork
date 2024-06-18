@@ -51,7 +51,7 @@ def main():
 
 	# !!! ИДЁТ ПЕРЕРАБОТКА !!!
 	# Стартуем интерфейс
-	#system(f"python -m streamlit run --server.address=127.0.0.1 interface.py {serv_port}")
+	system(f"python -m streamlit run --server.address=127.0.0.1 interface.py {serv_port}")
 
 if __name__ == "__main__":
 	# Запускаем главный процесс, чтобы потом легко убить его

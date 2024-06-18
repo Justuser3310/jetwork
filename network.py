@@ -36,9 +36,12 @@ def port_gen(st = 25000, end = 25200):
 	return port
 
 def server_http():
-	while True:
+	run = True
+	while run == True:
 		try:
 			os.system("python -m http.server --directory cached")
+		except KeyboardInterrupt:
+			run = False
 		except Exception as e:
 			print("SERVER_HTTP FALLED")
 			logging.critical(e, exc_info=True)
@@ -122,7 +125,7 @@ def recv(s, data_out):
 	data_out.put(data)
 
 # op = operation
-def client(port, op = "ping", host = 'jetwork.404.mn'):
+def client(port, op = "ping", host = 'bore.pub'):
 	# Если порт не определён
 	if not port:
 		return None
