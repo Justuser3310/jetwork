@@ -38,14 +38,16 @@ def update_servers(n):
 					Input('interval-component', 'n_intervals'),
 					Input('search', 'value'))
 def update_sites(n, s_val):
+	# Домен по умолчанию
+	domain = read()['domain']
 	# Если есть элемент в поиске
 	if s_val:
-		return html.Div([ dcc.Link(children=i, href=f'http://0.0.0.0:8000/{s_val}',
+		return html.Div([ dcc.Link(children=i, href=f'http://{domain}:8000/{s_val}',
 		target='_blank') ], className='sites_elem')
 
 	res = []
 	for i in next(walk('cached/'), (None, None, []))[1]:
-		res.append(html.Div([ dcc.Link(children=i, href=f'http://0.0.0.0:8000/{i}',
+		res.append(html.Div([ dcc.Link(children=i, href=f'http://{domain}:8000/{i}',
 													target='_blank') ], className='sites_elem'))
 	return res
 
