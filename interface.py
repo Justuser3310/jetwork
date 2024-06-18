@@ -12,8 +12,7 @@ html.Div([], id='sites', className='sites'),
 #dcc.Input(className='search', type='search', list=[1,2,3]),
 dcc.Dropdown(options=[], id='search', placeholder='Поиск...'),
 
-# TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO 
-dcc.Interval(id='interval-component', interval=1000*1000, n_intervals=0)
+dcc.Interval(id='interval-component', interval=1*1000, n_intervals=0)
 
 ], className='main')], className='content')
 
@@ -57,6 +56,5 @@ def update_search(n):
 		res.append(i)
 	return res
 
-#if __name__ == '__main__':
 #app.run(debug=True, port = 9000)
 app.run(debug=False, port = 9000)
