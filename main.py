@@ -8,34 +8,40 @@ from network import *
 from updater import *
 from proxy import *
 from status import *
+from db import *
 
+#
 # Здесь общий запуск всех файлов и команд
-
-
+#
 
 def main():
 	# Проверка обновлений
 	from sys import argv
 	if len(argv) == 1:
-		print("Проверка обновлений...")
-		system("git pull")
-		print("Перезагрузка скрипта...")
-		system("python main.py updated")
+		print('Проверка обновлений...')
+		system('git pull')
+		print('Перезагрузка скрипта...')
+		system('python main.py updated')
 		exit()
-	print("\nУспешно перезагружено!")
+	print('\nУспешно перезагружено!')
 
 	# Запуск прокси для сервисов
 	# проксируем http сервер
 	http_port = port_gen()
-	print(f"HTTP: {http_port}")
+	print(f'HTTP: {http_port}')
 	rp_http = Thread(target = watch_http, args=(http_port,))
 	rp_http.start()
 
 	# проксируем сервер обработки запросов
 	serv_port = port_gen()
-	print(f"SERV: {serv_port}")
+	print(f'SERV: {serv_port}')
 	rp_serv = Thread(target = watch_serv, args=(serv_port,))
 	rp_serv.start()
+
+	# Загружаем порт в конфиг
+	conf = read()
+	conf['our_port'] = serv_port
+	write(conf)
 
 	# Стартуем сервисы
 	# http сервер
@@ -49,11 +55,10 @@ def main():
 	updater = Thread(target = update_demon, args=(serv_port,))
 	updater.start()
 
-	# !!! ИДЁТ ПЕРЕРАБОТКА !!!
 	# Стартуем интерфейс
-	system(f"python -m streamlit run --server.address=127.0.0.1 interface.py {serv_port}")
+	system('python interface.py')
 
-if __name__ == "__main__":
+if __name__ == '__main__':
 	# Запускаем главный процесс, чтобы потом легко убить его
 	p = Process(target=main)
 	p.start()

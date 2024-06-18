@@ -1,0 +1,67 @@
+.content {
+	/*display: flex;*/
+	justify-content: center;
+	padding: 3rem;
+}
+
+.main {
+	display: grid;
+	grid-template-areas:
+		"our_port search"
+		"servers  sites"
+		"servers  sites";
+	grid-template-columns: 1fr 2fr;
+	grid-template-rows: auto auto;
+}
+
+.our_port {
+	grid-area: our_port;
+	background: #53f453;
+	align-content: center;
+	border-radius: 0.4rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	margin-right: 0.5rem;
+}
+
+.servers {
+	grid-area: servers;
+}
+
+.serv_elem {
+	background: #fff454;
+	align-content: center;
+	border-radius: 0.4rem;
+	padding-left: 1rem;
+	min-height: 2.2rem;
+	margin-top: 0.4rem;
+	margin-right: 0.5rem;
+}
+
+.sites {
+	grid-area: sites;
+}
+
+.sites_elem {
+	background: #abd4f9;
+	align-content: center;
+	border-radius: 0.4rem;
+	padding-left: 1rem;
+	min-height: 2.2rem;
+	margin-top: 0.4rem;
+}
+
+.search {
+	grid-area: search;
+}
+
+
+/* Действия при разрешении телефона */
+@media (max-width: 900px) {
+
+	.content {
+		display: flex;
+		padding: 0;
+	}
+
+}

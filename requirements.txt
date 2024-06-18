@@ -1,4 +1,4 @@
 cryptography
 requests
 tqdm
-streamlit
+dash
