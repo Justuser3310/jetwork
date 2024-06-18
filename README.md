@@ -32,6 +32,7 @@ https://t.me/justuser31_chat
 3. Установить tar: `sudo apt install tar`
 4. Клонировать репозиторий: `git clone https://github.com/Justuser3310/jetwork.git`
 5. Запустить setup.py: `cd jetwork && python setup.py`
+6. Запустить клиент: `python main.py`
 
 <br>
 <br>
@@ -41,6 +42,7 @@ https://t.me/justuser31_chat
 2. Установить git: https://git-scm.com/download/win (Windows setup)
 3. Клонировать репозиторий: `git clone https://github.com/Justuser3310/jetwork.git`
 4. Запустить setup.py: `cd jetwork && python setup.py`
+5. Запустить клиент: `python main.py`
 
 <br>
 <br>
