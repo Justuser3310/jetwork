@@ -33,6 +33,7 @@ https://t.me/justuser31_chat
 4. Клонировать репозиторий: `git clone https://github.com/Justuser3310/jetwork.git`
 5. Запустить setup.py: `cd jetwork && python setup.py`
 6. Запустить клиент: `python main.py`
+7. Зайти на `http://127.0.0.1:9000`
 
 <br>
 <br>
@@ -43,6 +44,7 @@ https://t.me/justuser31_chat
 3. Клонировать репозиторий: `git clone https://github.com/Justuser3310/jetwork.git`
 4. Запустить setup.py: `cd jetwork && python setup.py`
 5. Запустить клиент: `python main.py`
+6. Зайти на `http://127.0.0.1:9000`
 
 <br>
 <br>
