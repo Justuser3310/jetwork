@@ -40,11 +40,13 @@ def update_servers(n):
 def update_sites(n, s_val):
 	# Если есть элемент в поиске
 	if s_val:
-		return html.Div([s_val], className='sites_elem')
+		return html.Div([ dcc.Link(children=i, href=f'http://0.0.0.0:8000/{s_val}',
+		target='_blank') ], className='sites_elem')
 
 	res = []
 	for i in next(walk('cached/'), (None, None, []))[1]:
-		res.append(html.Div([i], className='sites_elem'))
+		res.append(html.Div([ dcc.Link(children=i, href=f'http://0.0.0.0:8000/{i}',
+													target='_blank') ], className='sites_elem'))
 	return res
 
 # Обновление доступных сайтов в поиске
