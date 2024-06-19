@@ -2,6 +2,8 @@ from os import system, name
 from threading import Thread
 from time import sleep
 
+from status import *
+
 global http_out ; http_out = None
 def proxy_http(port):
 	global http_out
@@ -24,13 +26,15 @@ def watch_http(port):
 	run.start()
 
 	global http_out
-	while True:
+	st = status_check()
+	while st:
 		# Если команда вышла
 		if http_out or not run.is_alive():
 			run.join(1)
 			http_out = None
 			run = Thread(target=proxy_http, args=(port,))
 			run.start()
+		st = status_check()
 		sleep(1)
 
 def watch_serv(port):
@@ -38,10 +42,12 @@ def watch_serv(port):
 	run.start()
 
 	global serv_out
-	while True:
+	st = status_check()
+	while st:
 		if serv_out or not run.is_alive():
 			run.join(1)
 			serv_out = None
 			run = Thread(target=proxy_serv, args=(port,))
 			run.start()
+			st = status_check()
 		sleep(1)

@@ -2,14 +2,20 @@ from dash import Dash, dcc, html, Input, Output, callback
 app = Dash(__name__, title='Jetwork', update_title=None)
 
 from db import *
+from status import *
+
 from os import walk
+from os import system as sys
+from platform import system
+from threading import Thread
 
 app.layout = html.Div([ html.Div([
 
+dcc.ConfirmDialog(id='shut_mess', message='Клиент выключен!'),
+html.Button("Выключить клиент", className='off_btn', n_clicks=0, id='off_btn'),
 html.Div([], id='our_port', className='our_port'),
 html.Div([], id='servers', className='servers'),
 html.Div([], id='sites', className='sites'),
-#dcc.Input(className='search', type='search', list=[1,2,3]),
 dcc.Dropdown(options=[], id='search', placeholder='Поиск...'),
 
 dcc.Interval(id='interval-component', interval=1*1000, n_intervals=0)
@@ -17,6 +23,29 @@ dcc.Interval(id='interval-component', interval=1*1000, n_intervals=0)
 ], className='main')], className='content')
 
 
+# Функция выключения
+def shutdown():
+	# Задаём код остановки
+	status_set('stop')
+	# Определяем платформу
+	if system() == 'Linux':
+		# вырубаем прокси и скрипты
+		sys('killall bore')
+		sys('killall python')
+	elif system() == 'Windows':
+		sys('taskkill /f /im bore.exe')
+		sys('taskkill /f /im python.exe')
+
+# Кнопка выключения
+@callback(
+  Output('shut_mess', 'displayed'),
+  Input('off_btn', 'n_clicks'),
+	prevent_initial_call=True
+)
+def shut_btn(n_clicks):
+	th = Thread(target=shutdown)
+	th.start()
+	return True
 
 # Обновление нашего порта (зачем?)
 @callback(Output('our_port', 'children'),

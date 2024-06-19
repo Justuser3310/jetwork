@@ -7,12 +7,33 @@
 .main {
 	display: grid;
 	grid-template-areas:
-		"our_port search"
-		"servers  sites"
-		"servers  sites";
+		"off_btn   search"
+		"our_port  sites"
+		"servers   sites";
 	grid-template-columns: 1fr 2fr;
 	grid-template-rows: auto auto;
 }
+
+
+.off_btn {
+	grid-area: off_btn;
+	background: #ff5a5a;
+	align-content: center;
+	border-radius: 0.4rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	border-style: hidden;
+	font-size: 1rem;
+	width: calc(100% - 0.5rem);
+	height: 100%;
+}
+
+.off_btn:active {
+  background-color: #c85000;
+  box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+  transform: scale(.96);
+}
+
 
 .our_port {
 	grid-area: our_port;
@@ -22,6 +43,7 @@
 	padding-left: 1rem;
 	padding-right: 1rem;
 	margin-right: 0.5rem;
+	margin-top: 0.4rem;
 }
 
 .servers {
