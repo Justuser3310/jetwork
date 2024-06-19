@@ -19,8 +19,8 @@ def status_check():
 
 def status_set(st):
 	f = open('status', 'w')
-	if st == True:
-		f.write('work')
+	if st == 'work' or st == 'stop':
+		f.write(st)
 	else:
-		f.write('stop')
+		return 404
 	f.close()
