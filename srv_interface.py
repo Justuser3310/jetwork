@@ -61,7 +61,12 @@ def update_sites(n, s_val):
 
 	res = []
 	for i in next(walk('cached/'), (None, None, []))[1]:
-		res.append(html.Div([ dcc.Link(children=i, href=f'{domain}/{i}',
+		conf = read(f'cached/{i}/config.json')
+		if conf['type'] == 'dynamic':
+			res.append(html.Div([ dcc.Link(children=i, href=f'http://bore.pub:{conf["port"]}',
+													target='_blank') ], className='sites_elem'))
+		else:
+			res.append(html.Div([ dcc.Link(children=i, href=f'{domain}/{i}',
 													target='_blank') ], className='sites_elem'))
 	return res
 
