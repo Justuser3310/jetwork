@@ -63,7 +63,7 @@ if __name__ == '__main__':
 	p = Process(target=main)
 	p.start()
 
-	status_set(True) # Устанавливаем статус, что программа работает
+	status_set('work') # Устанавливаем статус, что программа работает
 
 	st = status_check()
 	while st:
