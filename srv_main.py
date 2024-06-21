@@ -21,7 +21,7 @@ def main():
 		print('Проверка обновлений...')
 		system('git pull')
 		print('Перезагрузка скрипта...')
-		system('python main.py updated')
+		system('python srv_main.py updated')
 		exit()
 	print('\nУспешно перезагружено!')
 
