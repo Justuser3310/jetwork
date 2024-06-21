@@ -82,11 +82,10 @@ def server(http_port):
 							conn.send("not_exist".encode())
 					elif op[:8] == "publish_":
 						data = op[8:]
-						site, port = data.split("<>")
-						site = domain_ok(site)
-						if site:
+						site, u_port = data.split("<>")
+						if domain_ok(site):
 							conn.send("accepted".encode())
-							client(port, f"get_{site}")
+							client(u_port, f"get_{site}")
 					elif op == "check_all":
 						try:
 							sites = next(os.walk('cached/'), (None, None, []))[1]
