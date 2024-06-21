@@ -56,7 +56,7 @@ def main():
 	#updater.start()
 
 	# Стартуем интерфейс
-	system('python interface.py')
+	system('python srv_interface.py')
 
 if __name__ == '__main__':
 	# Запускаем главный процесс, чтобы потом легко убить его
