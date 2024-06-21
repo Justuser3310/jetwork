@@ -2,7 +2,7 @@ import os
 import json
 
 if not os.path.exists('config.json'):
-	db = {"our_port": 0000, "ports": [], "domain": "http://0.0.0.0:8000"}
+	db = {"os": None,"our_port": 0000, "ports": [], "domain": "http://0.0.0.0:8000"}
 	js = json.dumps(db, indent=2)
 	with open("config.json", "w") as outfile:
 		outfile.write(js)

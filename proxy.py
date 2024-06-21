@@ -1,4 +1,4 @@
-from os import system, name
+from os import system
 from threading import Thread
 from time import sleep
 
@@ -7,18 +7,20 @@ from status import *
 global http_out ; http_out = None
 def proxy_http(port):
 	global http_out
-	if name == "posix":
-		http_out = system(f"./bore local 8000 --to bore.pub --port {port}")
-	elif name == "nt":
-		http_out = system(f"bore local 8000 --to bore.pub --port {port}")
+	os = read()['os']
+	if os == 'Linux':
+		http_out = system(f'./bore local 8000 --to bore.pub --port {port}')
+	elif os == 'Windows' or os == 'Android':
+		http_out = system(f'bore local 8000 --to bore.pub --port {port}')
 
 global serv_out ; serv_out = None
 def proxy_serv(port):
 	global serv_out
-	if name == "posix":
-		http_out = system(f"./bore local 8001 --to bore.pub --port {port}")
-	elif name == "nt":
-	  http_out = system(f"bore local 8001 --to bore.pub --port {port}")
+	os = read()['os']
+	if os == 'Linux':
+		http_out = system(f'./bore local 8001 --to bore.pub --port {port}')
+	elif os == 'Windows' or os == 'Android':
+	  http_out = system(f'bore local 8001 --to bore.pub --port {port}')
 
 
 def watch_http(port):
