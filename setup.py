@@ -21,7 +21,7 @@ print('''---
 system('pip install -r requirements.txt')
 
 print('''---
-Скачиваем обратный прокси...
+[2/3] Скачиваем обратный прокси...
 ---''')
 if os == 'Linux':
 	download('https://github.com/ekzhang/bore/releases/download/v0.5.0/bore-v0.5.0-x86_64-unknown-linux-musl.tar.gz', 'bore.tar.gz')
@@ -40,7 +40,7 @@ else:
 	exit()
 
 print('''---
-Создаём папки для работы...
+[3/3] Создаём папки для работы...
 ---''')
 system('mkdir cached')
 system('mkdir verify')

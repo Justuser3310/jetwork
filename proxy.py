@@ -3,6 +3,7 @@ from threading import Thread
 from time import sleep
 
 from status import *
+from db import read
 
 global http_out ; http_out = None
 def proxy_http(port):
