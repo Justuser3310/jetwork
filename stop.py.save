@@ -1,8 +1,0 @@
-#
-# Установка/проверка статуса завершения
-#
-
-import os
-
-if not os.path.exists('status'):
-	
