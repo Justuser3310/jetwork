@@ -7,7 +7,9 @@ from multiprocessing import Process
 from network import *
 from updater import *
 from proxy import *
+from web_proxy import *
 from status import *
+
 from db import *
 
 #
