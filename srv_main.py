@@ -52,11 +52,11 @@ def main():
 	srv.start()
 
 	# Стартуем авто-поиск портов и авто-обновление сайтов
-	updater = Thread(target = update_demon, args=(serv_port,))
-	updater.start()
+	#updater = Thread(target = update_demon, args=(serv_port,))
+	#updater.start()
 
 	# Прокси для браузера
-	web_proxy = Thread(target = server, args=(web_proxy,))
+	web_proxy = Thread(target = web_proxy)
 	web_proxy.start()
 
 	# Стартуем интерфейс
