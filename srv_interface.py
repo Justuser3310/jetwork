@@ -62,7 +62,7 @@ def update_sites(n, s_val):
 	res = []
 	for i in next(walk('cached/'), (None, None, []))[1]:
 		conf = read(f'cached/{i}/config.json')
-		res.append(html.Div([ dcc.Link(children=i, href=f'{domain}/{i}',
+		res.append(html.Div([ dcc.Link(children=i, href=f'http://{i}',
 													target='_blank') ], className='sites_elem'))
 	return res
 
