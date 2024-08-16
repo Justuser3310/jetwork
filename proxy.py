@@ -10,18 +10,18 @@ def proxy_http(port):
 	global http_out
 	os = read()['os']
 	if os == 'Linux':
-		http_out = system(f'./bore local 8000 --to bore.pub --port {port}')
+		http_out = system(f'./bore local 8000 --to bore.del.pw --port {port}')
 	elif os == 'Windows' or os == 'Android':
-		http_out = system(f'bore local 8000 --to bore.pub --port {port}')
+		http_out = system(f'bore local 8000 --to bore.del.pw --port {port}')
 
 global serv_out ; serv_out = None
 def proxy_serv(port):
 	global serv_out
 	os = read()['os']
 	if os == 'Linux':
-		http_out = system(f'./bore local 8001 --to bore.pub --port {port}')
+		http_out = system(f'./bore local 8001 --to bore.del.pw --port {port}')
 	elif os == 'Windows' or os == 'Android':
-	  http_out = system(f'bore local 8001 --to bore.pub --port {port}')
+	  http_out = system(f'bore local 8001 --to bore.del.pw --port {port}')
 
 
 def watch_http(port):
