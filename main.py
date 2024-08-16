@@ -60,7 +60,6 @@ def main():
 	updater = Thread(target = update_demon, args=(serv_port,))
 	updater.start()
 
-	# DEPRECATED??? DEPRECATED DEPRECATED
 	# Стартуем интерфейс
 	system('python interface.py')
 
