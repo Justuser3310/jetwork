@@ -173,7 +173,10 @@ def client(port, op = "ping", host = 'bore.del.pw'):
 				return "old"
 
 		# Скачиваем файлы
-		g_site = get(f"http://{host}:{str(port)}/{site}.zip")
+		try:
+			g_site = get(f"http://{host}:{str(port)}/{site}.zip")
+		except:
+			return 'error'
 		print('SIZE: ', g_site.headers['Content-Length']) # Размер
 
 		with open(f"verify/{site}.zip", "wb") as f:
