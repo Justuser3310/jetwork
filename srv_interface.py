@@ -76,4 +76,4 @@ def update_search(n):
 	return res
 
 #app.run(debug=True, port = 5555)
-app.run(debug=False, port = 5555)
+app.run(debug=False, host = '0.0.0.0', port = 5555)
