@@ -58,8 +58,8 @@ def main():
 	#updater.start()
 
 	# Прокси для браузера
-	web_proxy = Thread(target = web_proxy)
-	web_proxy.start()
+	http_proxy = Thread(target = web_proxy)
+	http_proxy.start()
 
 	# Стартуем интерфейс
 	system('python srv_interface.py')
