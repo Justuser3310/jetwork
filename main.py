@@ -7,7 +7,9 @@ from multiprocessing import Process
 from network import *
 from updater import *
 from proxy import *
+from web_proxy import *
 from status import *
+
 from db import *
 
 #
@@ -47,14 +49,18 @@ def main():
 	# http сервер
 	http = Thread(target = server_http)
 	http.start()
-	# сервер обработки запросов
+	# Cервер обработки запросов
 	srv = Thread(target = server, args=(http_port,))
 	srv.start()
+	# Прокси для браузера
+	http_proxy = Thread(target = web_proxy)
+	http_proxy.start()
 
 	# Стартуем авто-поиск портов и авто-обновление сайтов
 	updater = Thread(target = update_demon, args=(serv_port,))
 	updater.start()
 
+	# DEPRECATED??? DEPRECATED DEPRECATED
 	# Стартуем интерфейс
 	system('python interface.py')
 
