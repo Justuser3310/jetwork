@@ -134,7 +134,7 @@ elif op == '4':
 			client(port, f'publish_{domain}<>{http_port}')
 		sleep(5)
 
-host = 'bore.pub'
+host = 'bore.del.pw'
 # Проверяем тип сайта
 type = read(f'mysites//{domain}/config.json')['type']
 # Если динамический - вставляем спец страницу
@@ -163,8 +163,7 @@ if op != '':
 if pub == 'n':
 	exit()
 
-print('Введите ваш порт сервера (при запуске main.py)')
-serv_port = int(input('>> '))
+serv_port = int( read()['our_port'] )
 http_port = client(serv_port, f'is_{domain}')
 
 print('Получаем все порты...')

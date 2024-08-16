@@ -124,7 +124,7 @@ def recv(s, data_out):
 	data_out.put(data)
 
 # op = operation
-def client(port, op = "ping", host = 'bore.pub'):
+def client(port, op = "ping", host = 'bore.del.pw'):
 	# Если порт не определён
 	if not port:
 		return None
