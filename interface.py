@@ -67,11 +67,11 @@ def update_servers(n):
 					Input('interval-component', 'n_intervals'),
 					Input('search', 'value'))
 def update_sites(n, s_val):
-	# Домен по умолчанию
-	domain = read()['domain']
+	# Префикс
+	base_url = read()['base_url']
 	# Если есть элемент в поиске
 	if s_val:
-		return html.Div([ dcc.Link(children=i, href=f'{domain}/{s_val}',
+		return html.Div([ dcc.Link(children=i, href=f'{base_url}/{s_val}',
 		target='_blank') ], className='sites_elem')
 
 	res = []
