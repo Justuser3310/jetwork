@@ -4,7 +4,7 @@ import urllib.request
 import logging
 
 from db import *
-domain = read()['domain']
+base_url = read()['base_url']
 
 # Логирование
 #logging.basicConfig(level=ic, format='%(asctime)s - %(message)s')
@@ -13,23 +13,26 @@ ic.disable() # Выключить отладку
 
 class Proxy(http.server.SimpleHTTPRequestHandler):
 	def do_GET(self):
-		# Log the requested domain
 		ic(f"Request for: {self.path}")
 
 		# 'js-check.jet/favicon.ico' -> '127.0.0.1:8000/favicon.ico'
 		target = self.path
+		domain = target[7:]
+		domain = domain[:domain.find('/')]
 		# Если статичный
-		if 'jet' in target:
-			target = f'{domain}/{target[7:]}' # http://127.0.0.1:8000 / js-check.jet
-			ic(f"Modded request: {target}")
-		elif 'dyn' in target:
-			addr = target[target.find('://')+3:]
-			addr = addr[:addr.find('/')]
-			port = read(f'cached/{addr}/config.json')['port']
-			target = f'http://bore.del.pw:{port}/{target[target.find("dyn")+4:]}'
-			ic(f"Modded request: {target}")
+		if read(f'cached/{domain}/config.json')['type'] == 'static':
+			target = f'{base_url}/{target[7:]}' # http://127.0.0.1:8000 / js-check.jet
+		# Если динамический
+		elif read(f'cached/{domain}/config.json')['type'] == 'dynamic':
+			port = read(f'cached/{domain}/config.json')['port']
+			target = f'http://bore.del.pw:{port}/{target.replace(f"http://{domain}/", "")}'
+		else:
+			self.send_error(404, f"Site not found")
+			return 0
 
-		# Forward the request to the actual server
+		ic(f"Modded request: {target}")
+
+		# Направление запроса по адресу
 		try:
 			with urllib.request.urlopen(target) as response:
 				self.send_response(response.getcode())
@@ -40,16 +43,20 @@ class Proxy(http.server.SimpleHTTPRequestHandler):
 			self.send_error(500, f"Error: {str(e)}")
 
 	def do_POST(self):
-		# Log the requested domain
 		ic(f"Request for: {self.path}")
 
-		if 'jet' in target:
-			target = f'{domain}/{target[7:]}' # http://127.0.0.1:8000 / js-check.jet
-			ic(f"Modded request: {target}")
+		if read(f'cached/{domain}/config.json')['type'] == 'static':
+			target = f'{base_url}/{target[7:]}' # http://127.0.0.1:8000 / js-check.jet
+		elif read(f'cached/{domain}/config.json')['type'] == 'dynamic':
+			port = read(f'cached/{domain}/config.json')['port']
+			target = f'http://bore.del.pw:{port}/{target.replace(f"http://{domain}/", "")}'
 		else:
-			pass
+			self.send_error(404, f"Site not found")
+			return 0
 
-		# Forward the request to the actual server
+		ic(f"Modded request: {target}")
+
+		# Направление запроса по адресу
 		try:
 			content_length = int(self.headers['Content-Length'])
 			post_data = self.rfile.read(content_length)
