@@ -2,6 +2,7 @@ import http.server
 import socketserver
 import urllib.request
 import logging
+from os.path import exists
 
 from db import *
 base_url = read()['base_url']
@@ -21,6 +22,11 @@ class Proxy(http.server.SimpleHTTPRequestHandler):
 		target = self.path
 		domain = target[7:]
 		domain = domain[:domain.find('/')]
+
+		if not exists(f'cached/{domain}'):
+			self.send_error(404, f"Site not found")
+			return 404
+
 		# Если статичный
 		if read(f'cached/{domain}/config.json')['type'] == 'static':
 			target = f'{base_url}/{target[7:]}' # http://127.0.0.1:8000 / js-check.jet
@@ -28,9 +34,6 @@ class Proxy(http.server.SimpleHTTPRequestHandler):
 		elif read(f'cached/{domain}/config.json')['type'] == 'dynamic':
 			port = read(f'cached/{domain}/config.json')['port']
 			target = f'http://bore.del.pw:{port}/{target.replace(f"http://{domain}/", "")}'
-		else:
-			self.send_error(404, f"Site not found")
-			return 0
 
 		ic(f"Modded request: {target}")
 
@@ -47,14 +50,15 @@ class Proxy(http.server.SimpleHTTPRequestHandler):
 	def do_POST(self):
 		ic(f"Request for: {self.path}")
 
+		if not exists(f'cached/{domain}'):
+			self.send_error(404, f"Site not found")
+			return 404
+
 		if read(f'cached/{domain}/config.json')['type'] == 'static':
 			target = f'{base_url}/{target[7:]}' # http://127.0.0.1:8000 / js-check.jet
 		elif read(f'cached/{domain}/config.json')['type'] == 'dynamic':
 			port = read(f'cached/{domain}/config.json')['port']
 			target = f'http://bore.del.pw:{port}/{target.replace(f"http://{domain}/", "")}'
-		else:
-			self.send_error(404, f"Site not found")
-			return 0
 
 		ic(f"Modded request: {target}")
 
@@ -74,5 +78,5 @@ class Proxy(http.server.SimpleHTTPRequestHandler):
 def web_proxy():
 	PORT = 8080
 	with socketserver.TCPServer(("", PORT), Proxy) as httpd:
-		ic(f"Serving on port {PORT}")
+		print(f"HTTP proxy on port {PORT}")
 		httpd.serve_forever()
