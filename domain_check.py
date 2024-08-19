@@ -1,5 +1,5 @@
 from re import compile, sub
-domains = ['jet', 'dyn']
+domains = ['jet', 'mirror', 'me']
 
 def domain_ok(domain):
 	global domains

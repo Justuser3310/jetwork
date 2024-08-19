@@ -15,8 +15,14 @@ conf = read()
 conf['os'] = os
 write(conf)
 
+if os == 'Android':
 print('''---
-[1/3] Устанавливаем зависимости python...
+Устанавливаем зависимости rust...
+---''')
+system('pkg install rust')
+
+print('''---
+[1/3] Устанавливаем зависимости Python...
 ---''')
 system('pip install -r requirements.txt')
 
@@ -33,7 +39,7 @@ elif os == 'Windows':
 	unpack('bore.zip')
 	system('del bore.zip')
 elif os == 'Android':
-	system('pkg install bore-cli')
+	system('pkg install bore')
 else:
 	print('Увы, вероятно Ваша ОС не поддерживается.')
 	print('Завершение работы...')
