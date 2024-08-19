@@ -11,6 +11,9 @@ from icecream import ic
 ic.disable() # Выключить отладку
 
 class Proxy(http.server.SimpleHTTPRequestHandler):
+	# Отключение всех сообщений (чтобы не забивать вывод)
+	def log_message(self, format, *args):
+		pass
 	def do_GET(self):
 		ic(f"Request for: {self.path}")
 
