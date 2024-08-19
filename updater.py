@@ -6,6 +6,9 @@ from network import *
 
 # Логирование ошибок
 import logging
+# Просто логирование
+from icecream import ic
+ic.disable() # Отключение логирования
 
 def update_demon(serv_port):
 	while True:
@@ -40,23 +43,23 @@ def update_demon(serv_port):
 							if check[0] == el:
 								# Сверяем версии
 								if check[1] >= ver:
-									print("Ver_ok: ", el)
+									ic("Ver_ok: ", el)
 									pass
 								else:
 									# Если версия новее
-									print("Ver_new: ", el)
+									ic("Ver_new: ", el)
 									http_port = client(port, f"is_{el}")
 									client(http_port, f"get_{el}")
 								found = True
 								break # Если нашли - выходим
 
 						if not found:
-							print("Not_found: ", el)
+							ic("Not_found: ", el)
 							http_port = client(port, f"is_{el}")
 							client(http_port, f"get_{el}")
 				except:
 					pass
 
 		except Exception as e:
-			print("UPDATER FALLED")
+			ic("UPDATER FALLED")
 			logging.critical(e, exc_info=True)

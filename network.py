@@ -13,6 +13,9 @@ from db import read
 from json import loads
 # Логирование ошибок
 import logging
+# Просто логирование
+from icecream import ic
+ic.disable() # Отключение логирования
 
 from verify import *
 from domain_check import *
@@ -43,7 +46,7 @@ def server_http():
 		except KeyboardInterrupt:
 			run = False
 		except Exception as e:
-			print("SERVER_HTTP FALLED")
+			ic("SERVER_HTTP FALLED")
 			logging.critical(e, exc_info=True)
 
 def server(http_port):
@@ -59,7 +62,7 @@ def server(http_port):
 				s.listen(2)
 				conn, address = s.accept()
 
-				print("Connection from: " + str(address))
+				ic("Connection from: " + str(address))
 
 				while True:
 					try:
@@ -104,7 +107,7 @@ def server(http_port):
 				conn.close()
 
 		except Exception as e:
-			print("SERVER_HTTP FALLED")
+			ic("SERVER_HTTP FALLED")
 			logging.critical(e, exc_info=True)
 
 
@@ -120,7 +123,7 @@ def recv(s, data_out):
 			okay = True
 		except:
 			pass
-	print(data)
+	ic(data)
 	data_out.put(data)
 
 # op = operation
@@ -177,7 +180,7 @@ def client(port, op = "ping", host = 'bore.del.pw'):
 			g_site = get(f"http://{host}:{str(port)}/{site}.zip")
 		except:
 			return 'error'
-		print('SIZE: ', g_site.headers['Content-Length']) # Размер
+		ic('SIZE: ', g_site.headers['Content-Length']) # Размер
 
 		with open(f"verify/{site}.zip", "wb") as f:
 			f.write(g_site.content)
@@ -214,10 +217,10 @@ def client(port, op = "ping", host = 'bore.del.pw'):
 			our_ver = our_conf["ver"]
 			# Если версия не новее - злоумышленник
 			if our_ver >= dest_ver:
-				print("[!] Обнаружена подмена версии сайта.")
+				ic("[!] Обнаружена подмена версии сайта.")
 				# Сохраняем ключ злоумышленника
 				os.replace(f"verify/{site}.pem", f"verify/{site}.pem.FAKE")
-				print(f"[!] Порт злоумышленника: {port}")
+				ic(f"[!] Порт злоумышленника: {port}")
 				# Удаляем фальшивые файлы
 				os.remove(f"verify/{site}.zip")
 				os.remove(f"verify/{site}.sig")
@@ -235,11 +238,11 @@ def client(port, op = "ping", host = 'bore.del.pw'):
 			copytree(f"verify/{site}", f"cached/{site}")
 			rmtree(f"verify/{site}")
 		else:
-			print("[!] Обнаружена подмена сайта.")
+			ic("[!] Обнаружена подмена сайта.")
 			# Сохраняем ключ злоумышленника
 			os.replace(f"verify/{site}.pem", f"verify/{site}.pem.FAKE")
-			print(f"[!] Порт злоумышленника: {port}")
-			print(f"[!] Ключ (вероятно) злоумышленника сохранён в verify/{site}.pem.FAKE\n")
+			ic(f"[!] Порт злоумышленника: {port}")
+			ic(f"[!] Ключ (вероятно) злоумышленника сохранён в verify/{site}.pem.FAKE\n")
 			# Удаляем фальшивые файлы
 			os.remove(f"verify/{site}.zip")
 			os.remove(f"verify/{site}.sig")
