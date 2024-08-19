@@ -7,7 +7,6 @@ from db import *
 base_url = read()['base_url']
 
 # Логирование
-#logging.basicConfig(level=ic, format='%(asctime)s - %(message)s')
 from icecream import ic
 ic.disable() # Выключить отладку
 
